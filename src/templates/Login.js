@@ -1,10 +1,14 @@
 import React from 'react';
 import { View , Text} from 'react-native'
 
-export default function Login() {
+const Login = () => {
     return(
-        <View>
-            <Text>Tela Login</Text>
-        </View>
+        <>
+            <View>
+                <Text>Tela de Loginziin</Text>
+            </View>
+        </>
     )
 }
+
+export default Login;
