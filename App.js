@@ -1,17 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native'
+import {NavigationContainer} from '@react-navigation/native'
+import Routes from './src/routes'
 
-class App extends Component{
-
-  render(){
-    return (
-      <View style={{flex:1 , flexDirection: "row"}}>
-        <View style= {{width: 50, backgroundColor: "pink"}}></View>
-      </View>
-    )
-  }
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Routes/>
+    </NavigationContainer>
+  );
 }
-
-export default App
-
