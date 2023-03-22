@@ -14,7 +14,7 @@ const Login = ({navigation}) => {
             </View> 
             
             <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
-                <Text onPress={()=>navigation.navigate("Cadastro")}>Criar conta</Text>
+                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Cadastro")}>Criar conta</Text>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoFunc")}>ENVIAR</Text>
                 
             </View>             

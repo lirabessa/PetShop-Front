@@ -41,8 +41,8 @@ const Cadastro = ({navigation}) => {
                             </View>
                         </View>
                     </Modal>
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around",  marginTop:60}}>
-                        <Text onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
+                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around"}}>
+                        <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                         
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
