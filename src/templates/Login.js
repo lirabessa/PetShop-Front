@@ -22,7 +22,6 @@ const Login = ({navigation}) => {
     )
 }
 
-
 const styles = StyleSheet.create({
     titulo:{
         textAlign:"center", fontSize: 30
