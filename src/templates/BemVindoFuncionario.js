@@ -1,19 +1,20 @@
-import React from 'react';
-import { View , Text} from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Pressable} from 'react-native'
 
 const BemVindoFunc = () => {
+    const [modalVisibel, setModalVisible] = useState(false);
     return(
         <>
             <ScrollView>
                     <View style = {styles.barra}/>
                         <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
-                            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
+                            <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>                
                                 <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                                     <Text style= {styles.titulo}>Bem vindo</Text>
                                 </KeyboardAvoidingView> 
                             </TouchableWithoutFeedback>
 
-                            <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around"}}>
+                            <KeyboardAvoidingView style={{justifyContent: "space-around", alignItems: "center", }}>
                         
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
         flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22,
     },
     button: {
-        borderRadius: 10, padding: 15, height:50, width:100, textAlign:"center"
+        borderRadius: 10, justifyContent: 'center', padding: 15, height:50, width:300, textAlign:"center", margin: 10
     },
     buttonOpen: {
         backgroundColor: 'pink',

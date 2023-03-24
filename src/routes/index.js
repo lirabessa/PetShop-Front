@@ -14,7 +14,7 @@ export default function Routes(){
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "Cadastro"component= {Cadastro}/>
                     <Stack.Screen name = "Login" component= {Login}/>
-                    <Stack.Screen name = "BemVindoFunc" component= {BemVindoFunc}/>
+                    <Stack.Screen options={{ headerShown: false }} name="BemVindoFunc"component={BemVindoFunc} />
                 </Stack.Navigator>
             </NavigationContainer> 
     )
