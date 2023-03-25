@@ -7,7 +7,7 @@ const TelaHome = ({navigation}) => {
     return(
         <>
            <ScrollView>
-                <Text onPress={()=>navigation.navigate("Login")} style={[styles.textStyle,]}>Login</Text>
+                <Text onPress={()=>navigation.navigate("Login")} style={[styles.textStyle]}>Login</Text>
                     
                     <KeyboardAvoidingView style={{ flexDirection:"row", justifyContent:"space-around", alignItems:'center',  paddingTop:80}}>
                         <KeyboardAvoidingView>

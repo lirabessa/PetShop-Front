@@ -1,12 +1,50 @@
 import React, {useState} from 'react';
-
 import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from "axios";
 
 
 const Cadastro = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [number, onChangeNumber] = React.useState('');
+
+    const [nomeFunc, setNomeFunc ] = useState('');
+    const [cpf, setCpf ] = useState('');
+    const [email, setEmail ] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [rua, setRua] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
+    const [pais, setPais] = useState('');
+    const [cep, setCep] = useState('');
+  
+    const cadastrarUsuario = () => {
+        var varJson = {
+           
+            nomeFunc: nomeFunc,
+            endereço:{
+                rua: rua,
+                bairro: bairro,
+                cidade:cidade,
+                estado:estado,
+                pais:pais,
+                cep: cep,
+              },
+              telefone:telefone,
+              email: email,
+              cpf: cpf }
+              console.log(varJson);
+        axios.post('https://pet-shop-back.vercel.app/funcionario', varJson
+ 
+).then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+    }
+
     return(
         <>
         <ScrollView>
@@ -15,15 +53,16 @@ const Cadastro = ({navigation}) => {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro de Funcionário</Text>
-                            <TextInput style={styles.input} placeholder = "Nome:"/>
-                            <TextInput style={styles.input} placeholder = "Telefone"/>
-                            <TextInput style={styles.input} placeholder = "Email"/>                    
-                            <TextInput style={styles.input} placeholder = "Rua:"/>
-                            <TextInput style={styles.input} placeholder = "Bairro:"/>
-                            <TextInput style={styles.input} placeholder = "Cidade:"/>
-                            <TextInput style={styles.input} placeholder = "Estado"/>
-                            <TextInput style={styles.input} placeholder = "Pais:"/>
-                            <TextInput style={styles.input} placeholder = "CEP"/>
+                            <TextInput value={nomeFunc} onChangeText={ e => {setNomeFunc(e)} } style={styles.input} placeholder = "Nome:"/>                   
+                            <TextInput value={rua} onChangeText={ e => {setRua(e)} } style={styles.input} placeholder = "Rua:"/>
+                            <TextInput value={bairro} onChangeText={ e => {setBairro(e)} } style={styles.input} placeholder = "Bairro:"/>
+                            <TextInput value={cidade} onChangeText={ e => {setCidade(e)} } style={styles.input} placeholder = "Cidade:"/>
+                            <TextInput value={estado} onChangeText={ e => {setEstado(e)} } style={styles.input} placeholder = "Estado"/>
+                            <TextInput value={pais} onChangeText={ e => {setPais(e)} } style={styles.input} placeholder = "Pais:"/>
+                            <TextInput value={cep} onChangeText={ e => {setCep(e)} } style={styles.input} placeholder = "CEP"/>
+                            <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
+                            <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
+                            <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
@@ -47,7 +86,7 @@ const Cadastro = ({navigation}) => {
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
                             onPress={() => setModalVisible(true)}>
-                            <Text style={styles.textStyle}>ENVIAR</Text>
+                            <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
                     </KeyboardAvoidingView>
             </KeyboardAvoidingView>   

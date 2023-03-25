@@ -10,11 +10,11 @@ export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="TelaHome">
+                <Stack.Navigator  initialRouteName="TelaHome">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "Cadastro"component= {Cadastro}/>
                     <Stack.Screen name = "Login" component= {Login}/>
-                    <Stack.Screen options={{ headerShown: false }} name="BemVindoFunc"component={BemVindoFunc} />
+                    <Stack.Screen name="BemVindoFunc"component={BemVindoFunc} />
                 </Stack.Navigator>
             </NavigationContainer> 
     )
