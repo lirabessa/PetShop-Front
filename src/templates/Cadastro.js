@@ -34,17 +34,16 @@ const Cadastro = ({navigation}) => {
               telefone:telefone,
               email: email,
               cpf: cpf }
-              console.log(varJson);
+              console.log('SUA TIA', varJson);
         axios.post('https://pet-shop-back.vercel.app/funcionario', varJson
  
 ).then(response => {
     console.log(response.data);
   })
   .catch(error => {
-    console.log(error);
+    console.log('SUA PRIMA', error.response);
   });
     }
-
     return(
         <>
         <ScrollView>

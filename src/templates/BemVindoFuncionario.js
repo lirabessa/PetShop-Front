@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Pressable} from 'react-native'
 
-const BemVindoFunc = () => {
+const BemVindoFunc = ({navigation}) => {
     const [modalVisibel, setModalVisible] = useState(false);
     return(
         <>
@@ -19,7 +19,7 @@ const BemVindoFunc = () => {
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text style={styles.textStyle}>Visualizar Clientes</Text>
+                                    <Text onPress={()=>navigation.navigate("Login")}  style={styles.textStyle}>Visualizar Clientes</Text>
                                 </Pressable>
 
                                 <Pressable
@@ -31,7 +31,13 @@ const BemVindoFunc = () => {
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text style={styles.textStyle}>Visualizar Funcionários</Text>
+                                    <Text  onPress={()=>navigation.navigate("VisualizarFunc")}  style={styles.textStyle}>Visualizar Funcionários</Text>
+                                </Pressable>
+
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}
+                                    onPress={() => setModalVisible(true)}>
+                                    <Text style={styles.textStyle}>Cadastrar Funcionários</Text>
                                 </Pressable>
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 
