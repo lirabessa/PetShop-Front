@@ -1,81 +1,91 @@
-import React, { useState } from 'react';
-import { View,SafeAreaView, VirtualizedList, StatusBar,  Text, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Pressable} from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, KeyboardAvoidingView,  } from 'react-native';
+
 import axios from "axios";
 
-const VisualizarFunc = () => {
-    const [modalVisibel, setModalVisible] = useState(false);
-    const [funcionarios, setFuncionarios] = useState()
+const VisualizarFunc = ({ navigation }) => {
+  const [modalVisibel, setModalVisible] = useState(false);
+
+  // ********************************** AXIOS ********************************************
+
+  const [funcionarios, setFuncionarios] = useState([])
+  const getItemCount = _data => 10;
+
+
+  const buscarFunc = async () => {
+    axios.get('https://pet-shop-back.vercel.app/funcionarios', {
+      maxRedirects: 0,
+      validateStatus: function (status) {
+        return status >= 200 && status < 303;
+      }
+    }).then(response => {
+      console.log("************************************************************************************");
+      console.log("************************************************************************************");
+      console.log("************************************************************************************");
+      console.log("************************************************************************************");
+      console.log("************************************************************************************");
+      console.log('esse then', response.data.readFuncionarios);
+      setFuncionarios(response.data.readFuncionarios)
+      console.log('aqui foi amem');
+    })
+      .catch(error => {
+        console.log('catch', error);
+      })
+  }
+  useEffect(() => {
+    buscarFunc()
+  }, [])
+
+  // ********************************** AXIOS ********************************************
+
+  return (
+    <>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{ backgroundColor: "red", paddingTop: 50 }}>
+        <Text style={styles.titulo}>Bem vindos</Text>
+      </KeyboardAvoidingView>
+{
+      funcionarios.map((func) => (
+
+       
+        <View style={styles.item} key={func._id}>
         
-    const getItem = (_data, index) => ({
-    id: Math.random().toString(12).substring(0),
-    title: `Funcionário: ${index + 1}`,
-    });
-    
-    const getItemCount = (_data) => 10;
-    
-    
+            <View style={{ flex: 1 }}>  
+                <Text>foto</Text> 
+            </View>
 
-    const Item = ({title}) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-    </View>
-    );  
-     
-    React.useEffect(()=>{
-        function render(){
-            axios.get('https://pet-shop-back.vercel.app/funcionarios'
-    
-            ).then(response => {
-                console.log("*********************************************************************************************************************");
-                console.log(response);
-                setFuncionarios(response.data)
-            })
-            .catch(error => {
-                console.log();
-            });
-        } 
-        render()   
-    },[])
+            <View style={{ flex: 1 }}>
+                <Text>{func.nomeFunc}</Text>
+            </View>
 
-    return(
-        <>
-            <ScrollView>
-                <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
-                    <KeyboardAvoidingView style = {{ paddingTop: 50}}>
-                        <Text style= {styles.titulo}>Bem vindo</Text>
-                    </KeyboardAvoidingView>
-                    <SafeAreaView style={styles.container}>
-                    <VirtualizedList
-                        initialNumToRender={4}
-                        renderItem={({item}) => <Item title={item.title} />}
-                        keyExtractor={item => item.id}
-                        getItemCount={getItemCount}
-                        getItem={getItem}
-                    />
-                    </SafeAreaView>
+            <View style={{ flex: 1 }}>
+                <Text>{func.telefone}</Text> 
+            </View>
+
+        </View>
+
+        
+        
+))
+      }
 
 
-                </KeyboardAvoidingView>
-            </ScrollView>
-        </>
-    )
+    </>
+  )
 }
-
 const styles = StyleSheet.create({
-titulo:{
-    textAlign:"center", fontSize: 30
-},
-container: {
+  titulo: {
+    textAlign: "center", fontSize: 30
+  },
+  container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight,
-},
-item: {
-    height: 150,
-    justifyContent: 'center',
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: "pink",
+  },
+  item: {  
     padding: 20,
-},
+    flexDirection:"row",
+    justifyContent:"space-around",
+    
+  },
 
 
 })

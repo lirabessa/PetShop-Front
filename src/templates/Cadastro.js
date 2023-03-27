@@ -34,15 +34,16 @@ const Cadastro = ({navigation}) => {
               telefone:telefone,
               email: email,
               cpf: cpf }
-              console.log('SUA TIA', varJson);
+              console.log('Foi', varJson);
         axios.post('https://pet-shop-back.vercel.app/funcionario', varJson
  
 ).then(response => {
-    console.log(response.data);
+    console.log('Then', response.data);
   })
   .catch(error => {
-    console.log('SUA PRIMA', error.response);
+    console.log('catch', error.response);
   });
+  setModalVisible(true)
     }
     return(
         <>
@@ -67,6 +68,7 @@ const Cadastro = ({navigation}) => {
                 </KeyboardAvoidingView> 
 
                 <KeyboardAvoidingView>
+
                     <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -84,10 +86,11 @@ const Cadastro = ({navigation}) => {
                         
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
-                            onPress={() => setModalVisible(true)}>
+                             >
                             <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
                     </KeyboardAvoidingView>
+                    
             </KeyboardAvoidingView>   
         </ScrollView>  
         </>
