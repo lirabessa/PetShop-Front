@@ -11,7 +11,7 @@ export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="VisualizarFunc">
+                <Stack.Navigator  initialRouteName="Login">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "Cadastro"component= {Cadastro}/>
                     <Stack.Screen name = "Login" component= {Login}/>

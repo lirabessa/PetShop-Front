@@ -76,7 +76,7 @@ const Cadastro = ({navigation}) => {
                                 <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.textStyle}>Voltar</Text>
+                                <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
                                 </Pressable>
                             </View>
                         </View>
