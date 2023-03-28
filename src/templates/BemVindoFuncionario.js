@@ -19,7 +19,7 @@ const BemVindoFunc = ({navigation}) => {
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text onPress={()=>navigation.navigate("Login")}  style={styles.textStyle}>Visualizar Clientes</Text>
+                                    <Text onPress={()=>navigation.navigate("VisualizarCli")}  style={styles.textStyle}>Visualizar Clientes</Text>
                                 </Pressable>
 
                                 <Pressable
@@ -37,7 +37,13 @@ const BemVindoFunc = ({navigation}) => {
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text style={styles.textStyle}>Cadastrar Funcionários</Text>
+                                    <Text onPress={()=>navigation.navigate("CadastroFunc")} style={styles.textStyle}>Cadastrar Funcionários</Text>
+                                </Pressable>
+
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}
+                                    onPress={() => setModalVisible(true)}>
+                                    <Text onPress={()=>navigation.navigate("CadastroCli")} style={styles.textStyle}>Cadastrar Clientes</Text>
                                 </Pressable>
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 

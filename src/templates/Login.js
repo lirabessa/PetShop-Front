@@ -1,23 +1,26 @@
 import React from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
+import CadastroCli from './CadastroCli';
 
 const Login = ({navigation}) => {
 
     const [number, onChangeNumber] = React.useState('');
     return(
-        <>           
+        <>  
+            
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
                 <Text style= {styles.titulo}>Bem Vindo ao PetShop</Text>
                 <TextInput style={styles.input} placeholder = "Email/CFP"/>
                 <TextInput style={styles.input} placeholder = "Senha"/>
-                <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text>
+                {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
             <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
-                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Cadastro")}>Criar conta</Text>
+                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate(CadastroCli)}>Criar conta</Text>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoFunc")}>ENVIAR</Text>
-                
-            </View>             
+            </View>   
+            </KeyboardAvoidingView>     
         </>
     )
 }

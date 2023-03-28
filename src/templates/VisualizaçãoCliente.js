@@ -1,82 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView,  } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import axios from "axios";
 
-const VisualizarFunc = ({ navigation }) => {
+const VisualizarCli = ({ navigation }) => {
   const [modalVisibel, setModalVisible] = useState(false);
 
   // ********************************** AXIOS ********************************************
 
-  const [funcionarios, setFuncionarios] = useState([])
+  const [clientes, setClientes] = useState([])
   
 
-  const buscarFunc = async () => {
-    axios.get('https://pet-shop-back.vercel.app/funcionarios', {
+  const buscarCli = async () => {
+    axios.get('https://pet-shop-back.vercel.app/clientes', {
       maxRedirects: 0,
       validateStatus: function (status) {
         return status >= 200 && status < 303;
       }
     }).then(response => {
-      console.log('esse then', response.data.readFuncionarios);
-      setFuncionarios(response.data.readFuncionarios)
-      console.log('aqui foi amem');
+    //   console.log('esse then', response.data.readCliente);
+      setClientes(response.data.readCliente)
+    //   console.log('aqui foi amem');
     })
       .catch(error => {
-        console.log('catch', error);
+        // console.log('catch', error);
       })
   }
 
   useEffect(() => {
-    buscarFunc()
+    buscarCli()
   }, [])
 
 
-  const DeletarFunc = (id) => {
-    axios.delete(`https://pet-shop-back.vercel.app/funcionario/${id}`)
+  const DeletarCli = (id) => {
+    axios.delete(`https://pet-shop-back.vercel.app/cliente/${id}`)
       .then(response => {
-        buscarFunc();
-        console.log('Funcionario Exluido');
+        buscarCli();
+        console.log(response.data.message);
       })
       .catch(error => {
-        console.log('Erro ao excluir o funcionário', error);
+        console.log('Erro ao excluir o cliente', error);
       })
   }
-
   
 
   // ********************************** AXIOS ********************************************
-
   return (
     <>
+    <ScrollView>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
-        <Text style={styles.titulo}>Bem vindos</Text>
+        <Text style={styles.titulo}>Clientes</Text>
       </KeyboardAvoidingView>
 {
-      funcionarios.map((func) => (
+      clientes.map((cli) => (
 
        
-        <View style={styles.item} key={func._id}>
+        <View style={styles.item} key={cli._id}>
         
-        
-
-
          <View style={styles.square}></View> 
 
             <View style={{ flex: 1}}>
-                <Text>{func.nomeFunc}</Text>
+                <Text>{cli.nomeCli}</Text>
             </View>
 
             <View style={{ flex: 1 }}>
-                <Text>{func.telefone}</Text> 
+                <Text>{cli.telefone}</Text> 
             </View>
 
 
             <Icon.Button name="trash-o" 
              size={20} color="red"
               backgroundColor = '#FFF'
-              onPress={() => DeletarFunc(func._id)}
+              onPress={() => DeletarCli(cli._id)}
   
               > </Icon.Button>
         </View>
@@ -85,6 +81,7 @@ const VisualizarFunc = ({ navigation }) => {
         
 ))
       }
+      </ScrollView>
 
 
     </>
@@ -121,4 +118,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default VisualizarFunc;
+export default VisualizarCli;

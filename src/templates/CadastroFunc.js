@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 
 
-const Cadastro = ({navigation}) => {
+const CadastroFunc = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [number, onChangeNumber] = React.useState('');
 
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
         marginBottom: 15, textAlign: 'center',
     }
 })
-export default Cadastro;
+export default CadastroFunc;
