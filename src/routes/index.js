@@ -16,7 +16,7 @@ export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="Foto">
+                <Stack.Navigator  initialRouteName="TelaHome">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "CadastroFunc"component= {CadastroFunc}/>
                     <Stack.Screen name="CadastroCli"component={CadastroCli} />
