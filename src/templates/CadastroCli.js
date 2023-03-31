@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
+import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, KeyboardAwareScrollView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 
@@ -49,7 +49,7 @@ const CadastroCli= ({navigation}) => {
         <>
         <ScrollView>
             <View style = {styles.barra}/>
-                <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
+                <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'position'}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro de Clientes</Text>
@@ -66,8 +66,8 @@ const CadastroCli= ({navigation}) => {
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
-
-                <KeyboardAvoidingView>
+        </ScrollView>
+                
 
                     <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                         <View style={styles.centeredView}>
@@ -80,8 +80,9 @@ const CadastroCli= ({navigation}) => {
                                 </Pressable>
                             </View>
                         </View>
+ 
                     </Modal>
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around"}}>
+                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
                         <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                         
                         <Pressable
@@ -90,9 +91,8 @@ const CadastroCli= ({navigation}) => {
                             <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
                     </KeyboardAvoidingView>
-                    
-            </KeyboardAvoidingView>   
-        </ScrollView>  
+
+          
         </>
     )
 }
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
     },
     textStyle: {
-        color: 'pink', justifyContent: 'center', alignItems: 'center' 
+        color: 'pink', justifyContent: 'center', alignItems: 'center' , marginEnd: 100
     },
     centeredView: {
         flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22,

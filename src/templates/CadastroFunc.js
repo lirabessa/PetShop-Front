@@ -66,7 +66,7 @@ const CadastroFunc = ({navigation}) => {
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
-
+                </ScrollView>
                 <KeyboardAvoidingView>
 
                     <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
@@ -81,7 +81,8 @@ const CadastroFunc = ({navigation}) => {
                             </View>
                         </View>
                     </Modal>
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around"}}>
+                   
+                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
                         <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                         
                         <Pressable
@@ -92,7 +93,7 @@ const CadastroFunc = ({navigation}) => {
                     </KeyboardAvoidingView>
                     
             </KeyboardAvoidingView>   
-        </ScrollView>  
+        
         </>
     )
 }
