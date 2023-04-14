@@ -9,6 +9,7 @@ import CadastroFunc from '../templates/CadastroFunc';
 import CadastroCli from '../templates/CadastroCli';
 import VisualizarCli from '../templates/VisualizaçãoCliente';
 import Foto from '../templates/Foto';
+import VeiwCli from '../templates/Viewcli';
 
 
 
@@ -25,6 +26,7 @@ export default function Routes(){
                     <Stack.Screen name="VisualizarFunc"component={VisualizarFunc} />
                     <Stack.Screen name="VisualizarCli"component={VisualizarCli} />
                     <Stack.Screen name="Foto" component={Foto}/>
+                    <Stack.Screen name="VeiwCli" component={VeiwCli}/>
                 </Stack.Navigator>
             </NavigationContainer> 
     )
