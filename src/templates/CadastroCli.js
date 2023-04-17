@@ -1,12 +1,33 @@
 import React, {useState} from 'react';
-import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, KeyboardAwareScrollView } from 'react-native'
+import { View ,Pressable, Modal, Text, StyleSheet, Image, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, KeyboardAwareScrollView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
+import * as ImagePicker from 'expo-image-picker';
 
 
 const CadastroCli= ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [number, onChangeNumber] = React.useState('');
+   
+    //************IMagem */
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.uri);
+      }
+    };
+
+    //************Imagem */
 
     const [nomeCli, setNomeCli ] = useState('');
     const [cpf, setCpf ] = useState('');
@@ -53,6 +74,10 @@ const CadastroCli= ({navigation}) => {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro de Clientes</Text>
+                            <View style={[styles.container]}>
+                                <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
+                                {image && <Image source={{ uri: image }} style={styles.image} />}
+                            </View>
                             <TextInput value={nomeCli} onChangeText={ e => {setNomeCli(e)} } style={styles.input} placeholder = "Nome:"/>                   
                             <TextInput value={rua} onChangeText={ e => {setRua(e)} } style={styles.input} placeholder = "Rua:"/>
                             <TextInput value={bairro} onChangeText={ e => {setBairro(e)} } style={styles.input} placeholder = "Bairro:"/>
@@ -63,6 +88,8 @@ const CadastroCli= ({navigation}) => {
                             <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
                             <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
                             <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>
+
+                       
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
@@ -99,6 +126,26 @@ const CadastroCli= ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-around',
+        marginTop: 50,
+        paddingBottom:40,
+        paddingLeft:15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+       
+      },
+      image: {
+        width: 200,
+        height: 200, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        
+      },
+
     titulo:{
         textAlign:"center", fontSize: 30
     },

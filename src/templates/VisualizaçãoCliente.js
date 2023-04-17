@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import axios from "axios";
@@ -58,7 +58,9 @@ const VisualizarCli = ({ navigation }) => {
        
         <View style={styles.item} key={cli._id}>
         
-         <View style={styles.square}></View> 
+         <View style={styles.square}>
+          <Text>{cli.image}</Text>
+          </View> 
 
             <View style={{ flex: 1}}>
                 <Text>{cli.nomeCli}</Text>
