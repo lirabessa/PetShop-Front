@@ -66,13 +66,13 @@ const CadastroFunc = ({navigation}) => {
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
-                </ScrollView>
+            </ScrollView>
                 <KeyboardAvoidingView>
 
                     <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Funcionário Cadastrado</Text>
+                                <Text onPress={()=>navigation.navigate("Login")}style={styles.modalText}>Funcionário Cadastrado</Text>
                                 <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>

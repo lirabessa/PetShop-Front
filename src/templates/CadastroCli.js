@@ -88,6 +88,7 @@ const CadastroCli= ({navigation}) => {
                             <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
                             <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
                             <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>
+                            <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text>
 
                        
                         </KeyboardAvoidingView> 
@@ -95,7 +96,6 @@ const CadastroCli= ({navigation}) => {
                 </KeyboardAvoidingView> 
         </ScrollView>
                 
-
                     <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -137,14 +137,20 @@ const styles = StyleSheet.create({
         
        
       },
-      image: {
-        width: 200,
-        height: 200, 
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-        
-      },
+    image: {
+    width: 200,
+    height: 200, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    
+    },
+
+    textPets:{
+        textAlign: "right",
+        marginRight: 20,
+        marginTop: 20,    
+    },
 
     titulo:{
         textAlign:"center", fontSize: 30
