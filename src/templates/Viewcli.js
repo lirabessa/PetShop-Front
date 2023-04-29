@@ -4,6 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { Logs } from 'expo'
+
+Logs.enableExpoCliLogging()
 
 const VeiwCli = ({navigation}) => {
 
@@ -84,6 +87,31 @@ const VeiwCli = ({navigation}) => {
         },
     ]
 
+    const petsMock = [
+        {nome: "Rex", raca: "dinossauro", editar: false},
+        {nome: "Raptor", raca: "dinossauro", editar: false},
+        {nome: "Triporodonte", raca: "dinossauro", editar: false} 
+    ]
+    const [pets, setPets] = React.useState(petsMock)
+
+    const [petNome, setPetNome] = React.useState("")
+    const [petRaca, setPetRaca] = React.useState("")
+    
+    const editarPet = (index) => {
+        const pet = pets[index]
+        setPetNome(pet.nome)
+        setPetRaca(pet.raca)
+        pets[index].editar = true
+        setPets(pets)
+    }
+
+    const concluirAlteracao = (index) => {
+        setPetNome('')
+        setPetRaca('')
+        pets[index].editar = false
+        setPets(pets)
+    }
+
 
     return(
         <>
@@ -150,7 +178,58 @@ const VeiwCli = ({navigation}) => {
                             
                            
                             
-                        </View>                        
+                        </View> 
+                        <View style={{paddingTop: 25}}>
+                        <Text style={{width: "100%", textAlign: "center", fontSize: 25}}>Pets</Text> 
+                        </View>   
+                        {pets?.map((pet, index) => (
+                        <View key={index}>
+                        <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20}}>
+                            <Text>{pet.nome}</Text>
+                            <View>
+                                <Icon.Button 
+                                    name={pet.editar ? "check" : "edit"}
+                                    size={20} 
+                                    color="black"
+                                    backgroundColor="rgba(255,255,255,0)"
+                                    onPress={()=> pet.editar ? concluirAlteracao(index) : editarPet(index)}>
+
+                                </Icon.Button>
+                            </View>
+                        </View>
+                        <View style={{
+                                ...style.input, 
+                                width: '90%', 
+                                flexDirection: "row", 
+                                justifyContent: "space-between", 
+                                padding: 0}}>
+                                {pet.editar ? (
+                                    <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
+                                    value = {pet.nome} 
+                                    onChangeText={(e) => {
+                                        pets[index].nome = e
+                                        setPets([...pets])
+                                    }}/>
+                                    ):(<Text style = {{margin: 5}}>Nome: {pet.nome}</Text>)}
+                                
+                        </View>
+                        <View style={{
+                                ...style.input, 
+                                width: '90%', 
+                                flexDirection: "row", 
+                                justifyContent: "space-between", 
+                                padding: 0}}>
+                                {pet.editar ? (
+                                    <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}}
+                                    value = {pet.raca}
+                                    onChangeText={(e) => {
+                                        pets[index].raca = e
+                                        setPets([...pets])}}/>
+                                ):(<Text style = {{margin: 5}}>Raça: {pet.raca}</Text>)}
+                                
+                        </View>
+                        </View>            
+                        ))}
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
