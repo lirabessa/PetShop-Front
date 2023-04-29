@@ -39,6 +39,8 @@ const CadastroCli= ({navigation}) => {
     const [estado, setEstado] = useState('');
     const [pais, setPais] = useState('');
     const [cep, setCep] = useState('');
+    const [nomeDep, setNomeDep] = useState('')
+    const [raca, setRaca] = useState('')
   
     const cadastrarUsuario = () => {
         var varJson = {
@@ -52,9 +54,13 @@ const CadastroCli= ({navigation}) => {
                 pais:pais,
                 cep: cep,
               },
-              telefone:telefone,
-              email: email,
-              cpf: cpf }
+                telefone:telefone,
+                email: email,
+                cpf: cpf,
+                dependentes:{
+                nomeDep: nomeDep,
+                raca: raca}
+            }
               console.log('Foi', varJson);
         axios.post('https://pet-shop-back.vercel.app/cliente', varJson
  
@@ -68,10 +74,10 @@ const CadastroCli= ({navigation}) => {
     }
     return(
         <>
+            
         <ScrollView>
-            <View style = {styles.barra}/>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'position'}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
+                                    
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro de Clientes</Text>
                             <View style={[styles.container]}>
@@ -88,11 +94,14 @@ const CadastroCli= ({navigation}) => {
                             <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
                             <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
                             <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>
-                            <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text>
+                            <Text style= {styles.titulo2}>Cadastro de Pets</Text>
+                            <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
+                            <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
+                            {/* <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text> */}
 
                        
                         </KeyboardAvoidingView> 
-                    </TouchableWithoutFeedback>
+                   
                 </KeyboardAvoidingView> 
         </ScrollView>
                 
@@ -109,7 +118,7 @@ const CadastroCli= ({navigation}) => {
                         </View>
  
                     </Modal>
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
+                    <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
                         <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                         
                         <Pressable
@@ -117,7 +126,7 @@ const CadastroCli= ({navigation}) => {
                              >
                             <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
-                    </KeyboardAvoidingView>
+                    </View>
 
           
         </>
@@ -155,12 +164,17 @@ const styles = StyleSheet.create({
     titulo:{
         textAlign:"center", fontSize: 30
     },
+
+    titulo2:{
+        textAlign:"center", fontSize: 30, marginTop:30
+    },
     barra:{
         flex:0.15, backgroundColor: "pink", 
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
     },
+   
     textStyle: {
         color: 'pink', justifyContent: 'center', alignItems: 'center' , marginEnd: 100
     },

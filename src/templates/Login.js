@@ -1,10 +1,9 @@
 import React from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
-import CadastroCli from './CadastroCli';
 
 const Login = ({navigation}) => {
 
-    const [number, onChangeNumber] = React.useState('');
+  
     return(
         <>  
             
@@ -17,7 +16,7 @@ const Login = ({navigation}) => {
             </View> 
             
             <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
-                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate(CadastroCli)}>Criar conta</Text>
+                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoFunc")}>ENVIAR</Text>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoCli")}>ENVIARCLI</Text>
             </View>   

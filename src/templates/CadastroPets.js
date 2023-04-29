@@ -4,6 +4,42 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 const CadastroPets = () =>{
+    const [modalVisible, setModalVisible] = useState(false);
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.uri);
+      }
+    };
+
+    const [nomeDep, setNomeDep] = useState('')
+    const [raca, setRaca] = useState('')
+
+    const cadastrarPets = () =>{
+        var varJson = {
+            nomeDep: nomeDep,
+            raca: raca
+        }
+        console.log('Foi', varJson);
+        axios.post('https://pet-shop-back.vercel.app/cliente', varJson
+).then(response => {
+        console.log('Then', response.data);
+    })
+    .catch(error => {
+        console.log('catch', error.response);
+    });
+    setModalVisible(true)
+    }
     return(
         <>
             <ScrollView>
@@ -11,9 +47,12 @@ const CadastroPets = () =>{
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro de Pets</Text>
-                            <TextInput style={styles.input} placeholder = "Nome Pets:"/>                   
-                            <TextInput style={styles.input} placeholder = "Idade Pets:"/>
-                            <TextInput style={styles.input} placeholder = "Nome Pets:"/>  
+                            <View style={[styles.container]}>
+                                <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
+                                {image && <Image source={{ uri: image }} style={styles.image} />}
+                            </View>
+                            <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
+                            <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
                             
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
@@ -23,7 +62,7 @@ const CadastroPets = () =>{
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Cliente Cadastrado</Text>
+                                <Text style={styles.modalText}>PET Cadastrado</Text>
                                 <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>
@@ -33,15 +72,14 @@ const CadastroPets = () =>{
                         </View>
  
                     </Modal>
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
-                        <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
-                        
+                    <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
+                                                
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
                              >
-                            <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
+                            <Text onPress={ () => cadastrarPets() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
-                    </KeyboardAvoidingView>
+                    </View>
     
         </>
     )
@@ -49,6 +87,16 @@ const CadastroPets = () =>{
 }
 
 const styles = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        justifyContent: 'space-around',
+        marginTop: 50,
+        paddingBottom:40,
+        paddingLeft:15,
+        justifyContent: 'center',
+        alignItems: 'center',       
+    },
     titulo:{
         textAlign:"center", fontSize: 30
     },
