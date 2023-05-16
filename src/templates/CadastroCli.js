@@ -41,8 +41,31 @@ const CadastroCli= ({navigation}) => {
     const [cep, setCep] = useState('');
     const [nomeDep, setNomeDep] = useState('')
     const [raca, setRaca] = useState('')
+    
   
-    const cadastrarUsuario = () => {
+    const cadastrarFoto = async () => {
+        let filename = image.split('/').pop();
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('File', { uri: image, name: filename, type });
+
+        const fotos = {
+            File:image
+        }
+        axios.post ('http://localhost:3333/uploads', fotos, {
+            headers: { 'Content-Type': 'multipart/form-data' }}
+        ).then(response => {
+            console.log('Then', response.data);
+        })
+        .catch(error => {
+            console.log('catch', error);
+        });
+    }
+
+    const cadastrarUsuario = async () => {
         var varJson = {
            
             nomeCli: nomeCli,
@@ -64,13 +87,14 @@ const CadastroCli= ({navigation}) => {
               console.log('Foi', varJson);
         axios.post('https://pet-shop-back.vercel.app/cliente', varJson
  
-).then(response => {
-    console.log('Then', response.data);
-  })
-  .catch(error => {
-    console.log('catch', error.response);
-  });
-  setModalVisible(true)
+        ).then(async response => {
+            console.log('Then', response.data);
+            const cadFotos = await cadastrarFoto()
+        })
+        .catch(error => {
+            console.log('catch', error.response);
+        });
+        setModalVisible(true)
     }
     return(
         <>
@@ -116,19 +140,17 @@ const CadastroCli= ({navigation}) => {
                                 </Pressable>
                             </View>
                         </View>
- 
                     </Modal>
+
                     <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
                         <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                         
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
                              >
-                            <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
+                            <Text onPress={ () => cadastrarFoto() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
-                    </View>
-
-          
+                    </View>      
         </>
     )
 }
@@ -143,16 +165,13 @@ const styles = StyleSheet.create({
         paddingLeft:15,
         justifyContent: 'center',
         alignItems: 'center',
-        
-       
-      },
+    },
     image: {
-    width: 200,
-    height: 200, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-    
+        width: 200,
+        height: 200, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
     },
 
     textPets:{

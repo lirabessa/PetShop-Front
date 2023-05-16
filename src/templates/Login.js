@@ -1,24 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
+import axios from "axios";
 
 const Login = ({navigation}) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  
+    const realizarLogin = () =>{
+    
+        var varJson = {
+            email:email,
+            password:password
+        }
+        axios.post('https://pet-shop-back.vercel.app/login', varJson
+        ).then(response => {
+            console.log('then',response.data);
+            if(response.data.tipo === 'Funcionario'){
+                console.log("FOI FUNC");
+                navigation.navigate("BemVindoFunc")
+            }else{
+                navigation.navigate("BemVindoCli")
+            }
+        })
+        .catch(error => {
+            console.log('catch',error.response.data);
+        });
+    }
+
     return(
-        <>  
-            
+        <>           
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
                 <Text style= {styles.titulo}>Bem Vindo ao PetShop</Text>
-                <TextInput style={styles.input} placeholder = "Email/CFP"/>
-                <TextInput style={styles.input} placeholder = "Senha"/>
+                <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP"/>
+                <TextInput value = {password} onChangeText = {e => {setPassword(e)}} style={styles.input} placeholder = "Senha"/>
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
             <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
                 <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
-                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoFunc")}>ENVIAR</Text>
-                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoCli")}>ENVIARCLI</Text>
+                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]} onPress={()=>realizarLogin()}>ENVIAR</Text>
             </View>   
 
             
