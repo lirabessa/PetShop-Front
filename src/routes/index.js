@@ -1,23 +1,23 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../templates/Login'
-import BemVindoFunc from '../templates/BemVindoFuncionario'
+import BemVindoFunc from '../templates/funcionario/BemVindoFuncionario'
 import { NavigationContainer } from '@react-navigation/native';
 import TelaHome from '../templates/TelaHome';
-import VisualizarFunc from '../templates/VisualizacaoFuncionarios';
-import CadastroFunc from '../templates/CadastroFunc';
-import CadastroCli from '../templates/CadastroCli';
-import VisualizarCli from '../templates/VisualizaçãoCliente';
-import VeiwCli from '../templates/Viewcli';
-import BemVindoCli from '../templates/BemVindoCliente';
-import CadastroPets from '../templates/CadastroPets';
-
+import VisualizarFunc from '../templates/funcionario/VisualizacaoFuncionarios';
+import CadastroFunc from '../templates/funcionario/CadastroFunc';
+import CadastroCli from '../templates/cliente/CadastroCli';
+import VisualizarCli from '../templates/cliente/VisualizaçãoCliente';
+import VeiwCli from '../templates/cliente/Viewcli';
+import BemVindoCli from '../templates/cliente/BemVindoCliente';
+import CadastroPets from '../templates/cliente/CadastroPets';
+import CadastroProd from '../templates/produto/cadastroProduto'
 
 
 export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="TelaHome">
+                <Stack.Navigator  initialRouteName="BemVindoFunc">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "CadastroFunc"component= {CadastroFunc}/>
                     <Stack.Screen name="CadastroCli"component={CadastroCli} />
@@ -28,6 +28,7 @@ export default function Routes(){
                     <Stack.Screen name="VeiwCli" component={VeiwCli}/>
                     <Stack.Screen name="BemVindoCli" component={BemVindoCli}/>
                     <Stack.Screen name="CadastroPets" component={CadastroPets}/>
+                    <Stack.Screen name="CadastroProd" component={CadastroProd}/>
                 </Stack.Navigator>
             </NavigationContainer> 
     )

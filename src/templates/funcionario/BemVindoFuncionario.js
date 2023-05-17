@@ -45,6 +45,12 @@ const BemVindoFunc = ({navigation}) => {
                                     onPress={() => setModalVisible(true)}>
                                     <Text onPress={()=>navigation.navigate("CadastroCli")} style={styles.textStyle}>Cadastrar Clientes</Text>
                                 </Pressable>
+
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}
+                                    onPress={() => setModalVisible(true)}>
+                                    <Text onPress={()=>navigation.navigate("CadastroProd")} style={styles.textStyle}>Cadastrar Produtos</Text>
+                                </Pressable>
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 
             </ScrollView> 
