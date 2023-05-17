@@ -46,11 +46,11 @@ const CadastroPets = () =>{
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
-                            <Text style= {styles.titulo}>Cadastro de Pets</Text>
-                            <View style={[styles.container]}>
+                            <Text style= {styles.titulo}>Cadastro novo Pets</Text>
+                            {/* <View style={[styles.container]}>
                                 <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
                                 {image && <Image source={{ uri: image }} style={styles.image} />}
-                            </View>
+                            </View> */}
                             <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
                             <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
                             

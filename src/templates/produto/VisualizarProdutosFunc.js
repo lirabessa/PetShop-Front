@@ -50,16 +50,7 @@ const styles = StyleSheet.create({
       marginTop:20,
       marginHorizontal:15
   
-    },
-  
-    square: {
-      width: 50,
-      height: 50,
-      backgroundColor: 'pink',
-      opacity: 0.4,
-      borderRadius: 5,
-      marginRight: 15,
-    },
+    }
   
   })
 

@@ -16,10 +16,10 @@ const BemVindoCli = ({navigation}) => {
 
                             <KeyboardAvoidingView style={{justifyContent: "space-around", alignItems: "center", }}>
                         
-                                <Pressable
+                                {/* <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
                                     <Text onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Agendar Consultas</Text>
-                                </Pressable>
+                                </Pressable> */}
 
                                 {/* <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
@@ -28,12 +28,12 @@ const BemVindoCli = ({navigation}) => {
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text  onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
+                                    <Text  onPress={()=>navigation.navigate("VisualizarSeusPet")}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
                                 </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text onPress={()=>navigation.navigate("")} style={styles.textStyle}>Cadastrar novos Pets</Text>
+                                    <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textStyle}>Adicionar seu novo Pets</Text>
                                 </Pressable>
 
                             </KeyboardAvoidingView>

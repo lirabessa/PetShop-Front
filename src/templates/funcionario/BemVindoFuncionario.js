@@ -25,13 +25,19 @@ const BemVindoFunc = ({navigation}) => {
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text style={styles.textStyle}>Visualizar Produtos</Text>
+                                    <Text  onPress={()=>navigation.navigate("VisualizarFunc")}  style={styles.textStyle}>Visualizar Funcionários</Text>
                                 </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => setModalVisible(true)}>
-                                    <Text  onPress={()=>navigation.navigate("VisualizarFunc")}  style={styles.textStyle}>Visualizar Funcionários</Text>
+                                    <Text onPress={()=>navigation.navigate("VisulizarProdFunc")} style={styles.textStyle}>Visualizar Produtos</Text>
+                                </Pressable>
+
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}
+                                    onPress={() => setModalVisible(true)}>
+                                    <Text onPress={()=>navigation.navigate("CadastroCli")} style={styles.textStyle}>Cadastrar Clientes</Text>
                                 </Pressable>
 
                                 <Pressable
@@ -40,11 +46,6 @@ const BemVindoFunc = ({navigation}) => {
                                     <Text onPress={()=>navigation.navigate("CadastroFunc")} style={styles.textStyle}>Cadastrar Funcionários</Text>
                                 </Pressable>
 
-                                <Pressable
-                                    style={[styles.button, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}>
-                                    <Text onPress={()=>navigation.navigate("CadastroCli")} style={styles.textStyle}>Cadastrar Clientes</Text>
-                                </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
