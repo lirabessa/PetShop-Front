@@ -52,7 +52,7 @@ const VisualizarCli = ({ navigation }) => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
         <Text style={styles.titulo}>Clientes</Text>
       </KeyboardAvoidingView>
-{
+    {
       clientes.map((cli) => (
 
        
@@ -80,9 +80,8 @@ const VisualizarCli = ({ navigation }) => {
         </View>
 
         
-        
-))
-      }
+      ))
+    }
       </ScrollView>
 
 

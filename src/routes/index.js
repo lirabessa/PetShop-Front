@@ -11,13 +11,13 @@ import VeiwCli from '../templates/cliente/Viewcli';
 import BemVindoCli from '../templates/cliente/BemVindoCliente';
 import CadastroPets from '../templates/cliente/CadastroPets';
 import CadastroProd from '../templates/produto/cadastroProduto'
-
+import VisulizarProdFunc from '../templates/produto/VisualizarProdutosFunc'
 
 export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="BemVindoFunc">
+                <Stack.Navigator  initialRouteName="VisulizarProdFunc">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "CadastroFunc"component= {CadastroFunc}/>
                     <Stack.Screen name="CadastroCli"component={CadastroCli} />
@@ -29,6 +29,7 @@ export default function Routes(){
                     <Stack.Screen name="BemVindoCli" component={BemVindoCli}/>
                     <Stack.Screen name="CadastroPets" component={CadastroPets}/>
                     <Stack.Screen name="CadastroProd" component={CadastroProd}/>
+                    <Stack.Screen name="VisulizarProdFunc" component={VisulizarProdFunc}/>
                 </Stack.Navigator>
             </NavigationContainer> 
     )
