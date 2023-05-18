@@ -6,27 +6,67 @@ import axios from "axios";
 
 const VisualizarProdFunc = ({navigation}) =>{
 
+    //*************AXIOS**************** */
+    const [produtos,setProdutos] = useState([])
+    
+    const buscarProd = async () =>{
+        axios.get('https://pet-shop-back.vercel.app/produtos',{
+            maxRedirects: 0,
+            validateStatus: function (status) {
+            return status >= 200 && status < 303;
+            }
+        }).then(response => {
+    //   console.log('esse then', response.data.readCliente);
+    setProdutos(response.data.readProdutos)
+    //   console.log('aqui foi amem');
+    })
+    .catch(error => {
+        // console.log('catch', error);
+    })
+}
+
+useEffect(() => {
+    buscarProd()
+}, [])
+
+const DeletarProd = (id) => {
+    axios.delete(`https://pet-shop-back.vercel.app/produto/${id}`)
+    .then(response => {
+        buscarProd();
+        console.log(response.data.message);
+    })
+    .catch(error => {
+        console.log('Erro ao excluir o produto', error);
+    })
+}
+    //****************AXIOS**************** */
+
     return(
         <>
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
                     <Text style={styles.titulo}>Todos os Produtos</Text>
                 </KeyboardAvoidingView>
-            
-            <View style={styles.item}>
+            {
+            produtos.map((prod)=> (
+            <View style={styles.item} key={prod._id}>
         
                 <View style={{ flex: 1}}>
-                    <Text>Ração</Text>
+                    <Text>{prod.nomeProd}</Text>
                 </View>
-                <View style={{ flex: 1}}>
-                    <Text>3,99 kg</Text>
+                <View style={{ flex: 1 , paddingLeft: 35}}>
+                    <Text>{prod.preco}</Text>
                 </View>
 
                 <Icon.Button name="trash-o" 
                     size={20} color="red"
-                    backgroundColor = '#FFF'>
+                    backgroundColor = '#FFF'
+                    onPress={()=> DeletarProd(prod._id)}
+                    >
                 </Icon.Button>
             </View>
+
+))}
             </ScrollView>
         </>
     )

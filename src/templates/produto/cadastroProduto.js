@@ -6,6 +6,29 @@ import axios from "axios";
 const CadastroProd = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
 
+    //***********AXIOS*********** */
+    const [nomeProd, setNomeProd] = useState('')
+    const [preco, setPreco] = useState('')
+
+    const cadastroProd = async () =>{
+        var varJson = {
+            nomeProd: nomeProd,
+            preco: preco
+        }
+        axios.post('https://pet-shop-back.vercel.app/produto', varJson
+        ).then(async response => {
+            console.log('Then', response.data);
+        })
+        .catch(error => {
+            console.log('catch', error.response);
+        });
+        setModalVisible(true)
+    }
+
+
+
+    //***********AXIOS*********** */
+
     return(
         <>
             <ScrollView>
@@ -13,9 +36,9 @@ const CadastroProd = ({navigation}) =>{
                                         
                     <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                         <Text style= {styles.titulo}>Cadastro de Produto</Text>
-                       
-                        <TextInput  style={styles.input} placeholder = "Nome do Produto:"/>                   
-                        <TextInput  style={styles.input} placeholder = "Preço:"/>
+                    
+                        <TextInput value={nomeProd} onChangeText={e=>{setNomeProd(e)}} style={styles.input} placeholder = "Nome do Produto:"/>                   
+                        <TextInput value={preco} onChangeText={e=>{setPreco(e)}} style={styles.input} placeholder = "Preço:"/>
             
                     </KeyboardAvoidingView>
                 </KeyboardAvoidingView>           
@@ -24,7 +47,7 @@ const CadastroProd = ({navigation}) =>{
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Cliente Cadastrado</Text>
+                        <Text style={styles.modalText}>Produto Cadastrado</Text>
                         <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}>
@@ -39,7 +62,7 @@ const CadastroProd = ({navigation}) =>{
                 <Pressable
                     style={[styles.button, styles.buttonOpen]}
                         >
-                    <Text  style={styles.textStyle}>Cadastrar</Text>
+                    <Text onPress={()=> cadastroProd()} style={styles.textStyle}>Cadastrar</Text>
                 </Pressable>
                     </View>  
         </>

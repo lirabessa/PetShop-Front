@@ -83,7 +83,7 @@ const CadastroCli= ({navigation}) => {
                 dependentes:{
                 nomeDep: nomeDep,
                 raca: raca}
-            }
+        }
               console.log('Foi', varJson);
         axios.post('https://pet-shop-back.vercel.app/cliente', varJson
  
