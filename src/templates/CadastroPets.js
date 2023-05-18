@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
+import { View ,Pressable, Modal, Image, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 
 const CadastroPets = () =>{
@@ -10,7 +12,7 @@ const CadastroPets = () =>{
     const pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [4, 3],
         quality: 1,
       });
@@ -19,7 +21,7 @@ const CadastroPets = () =>{
   
       if (!result.canceled) {
         setImage(result.uri);
-      }
+      } 
     };
 
     const [nomeDep, setNomeDep] = useState('')
@@ -129,7 +131,15 @@ const styles = StyleSheet.create({
       },
     modalText: {
         marginBottom: 15, textAlign: 'center',
-    }
+    },
+    image: {
+        width: 200,
+        height: 200, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        
+        },
 })
 
 export default CadastroPets;

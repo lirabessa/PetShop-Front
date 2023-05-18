@@ -1,8 +1,17 @@
 import React from 'react';
-import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
+import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, TouchableOpacity} from 'react-native'
+import RadioButtons from '../components/RadioButtons';
 
 const Login = ({navigation}) => {
+    const [tipoLogin, setTipoLogin] = React.useState(1)
 
+    const navegarTela = () => {
+        navigation.navigate(tipoLogin === 1 ? "BemVindoFunc" :"BemVindoCli")
+    }
+
+    const setChecked = (id) => {
+        setTipoLogin(id)
+    }
   
     return(
         <>  
@@ -15,10 +24,13 @@ const Login = ({navigation}) => {
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
-            <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
-                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
-                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoFunc")}>ENVIAR</Text>
-                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]}onPress={()=>navigation.navigate("BemVindoCli")}>ENVIARCLI</Text>
+            <View style={{ flexDirection: "column", justifyContent:"space-around", marginTop:60}}>
+                <Text style={{marginTop: 10, width: '100%', textAlign: 'center', fontSize: 25}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
+                <View style={{width: '100%', flexDirection: 'row', justifyContent: 'center'}}>
+                    <RadioButtons key={1} item={{label:"Funcionário", id: 1}} setChecked={setChecked} checked={tipoLogin}/>
+                    <RadioButtons key={2} item={{label:"Cliente", id: 2}} setChecked={setChecked} checked={tipoLogin}/>
+                </View>
+                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]} onPress={()=>navegarTela()}>Login</Text>
             </View>   
 
             
@@ -45,11 +57,11 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 15,
-        height:50,
-        width:100,
         textAlign:"center",
         backgroundColor: "pink",
-        height:50, width:100,
+        height:55, 
+        width:'95%',
+        margin: '2.5%',
         borderRadius:10
     }
 })

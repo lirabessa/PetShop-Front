@@ -18,7 +18,7 @@ const BemVindoCli = ({navigation}) => {
                         
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Agendar Consultas</Text>
+                                    <Text onPress={()=>navigation.navigate("BemVindoCli")}  style={styles.textStyle}>Agendar Consultas</Text>
                                 </Pressable>
 
                                 {/* <Pressable
@@ -28,12 +28,12 @@ const BemVindoCli = ({navigation}) => {
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text  onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
+                                    <Text  onPress={()=>navigation.navigate({name: "BemVindoCli"})}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
                                 </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text onPress={()=>navigation.navigate("")} style={styles.textStyle}>Cadastrar novos Pets</Text>
+                                    <Text onPress={()=>navigation.navigate({name:"CadastroPets"})} style={styles.textStyle}>Cadastrar novos Pets</Text>
                                 </Pressable>
 
                             </KeyboardAvoidingView>
