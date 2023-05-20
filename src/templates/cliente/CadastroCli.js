@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
-import { View ,Pressable, Modal, Text, StyleSheet, Image, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, KeyboardAwareScrollView } from 'react-native'
+import { 
+    View, Pressable, Modal, Text, StyleSheet, Image, 
+    TextInput, Button, Keyboard, KeyboardAvoidingView,
+     TouchableWithoutFeedback, KeyboardAwareScrollView,
+    TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
@@ -41,7 +45,8 @@ const CadastroCli= ({navigation}) => {
     const [cep, setCep] = useState('');
     const [nomeDep, setNomeDep] = useState('')
     const [raca, setRaca] = useState('')
-    
+    const [password, setPassword] = useState('')
+    const [enviandoDados, setEnviandoDados] = useState(false)
   
     const cadastrarFoto = async () => {
         let filename = image.split('/').pop();
@@ -55,17 +60,24 @@ const CadastroCli= ({navigation}) => {
         const fotos = {
             File:image
         }
-        axios.post ('http://localhost:3333/uploads', fotos, {
+        const url = 'http://pet-shop-back.vercel.app'
+        //const url = 'http://192.168.0.138:3333'
+        axios.post (url+'/uploads', fotos, {
             headers: { 'Content-Type': 'multipart/form-data' }}
         ).then(response => {
             console.log('Then', response.data);
+            setModalVisible(true)
+            
         })
         .catch(error => {
-            console.log('catch', error);
-        });
+            console.log('catch 333', error);
+        }).finally(() => {
+            setEnviandoDados(false);
+        })
     }
 
     const cadastrarUsuario = async () => {
+        setEnviandoDados(true);
         var varJson = {
            
             nomeCli: nomeCli,
@@ -76,82 +88,96 @@ const CadastroCli= ({navigation}) => {
                 estado:estado,
                 pais:pais,
                 cep: cep,
-              },
+            },
                 telefone:telefone,
                 email: email,
                 cpf: cpf,
                 dependentes:{
                 nomeDep: nomeDep,
-                raca: raca}
+                raca: raca},
+                password
         }
-              console.log('Foi', varJson);
-        axios.post('https://pet-shop-back.vercel.app/cliente', varJson
+        console.log('Foi', varJson);
+        const url = 'http://pet-shop-back.vercel.app'
+        axios.post(url+'/cliente', varJson
  
         ).then(async response => {
             console.log('Then', response.data);
             const cadFotos = await cadastrarFoto()
         })
         .catch(error => {
-            console.log('catch', error.response);
+            console.log('catch 2222', {error});
+            setEnviandoDados(false);
         });
-        setModalVisible(true)
+        
     }
     return(
-        <>
             
         <ScrollView>
-                <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'position'}>
-                                    
-                        <KeyboardAvoidingView style = {{ paddingTop: 50}}>
-                            <Text style= {styles.titulo}>Cadastro de Clientes</Text>
-                            <View style={[styles.container]}>
-                                <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
-                                {image && <Image source={{ uri: image }} style={styles.image} />}
-                            </View>
-                            <TextInput value={nomeCli} onChangeText={ e => {setNomeCli(e)} } style={styles.input} placeholder = "Nome:"/>                   
-                            <TextInput value={rua} onChangeText={ e => {setRua(e)} } style={styles.input} placeholder = "Rua:"/>
-                            <TextInput value={bairro} onChangeText={ e => {setBairro(e)} } style={styles.input} placeholder = "Bairro:"/>
-                            <TextInput value={cidade} onChangeText={ e => {setCidade(e)} } style={styles.input} placeholder = "Cidade:"/>
-                            <TextInput value={estado} onChangeText={ e => {setEstado(e)} } style={styles.input} placeholder = "Estado"/>
-                            <TextInput value={pais} onChangeText={ e => {setPais(e)} } style={styles.input} placeholder = "Pais:"/>
-                            <TextInput value={cep} onChangeText={ e => {setCep(e)} } style={styles.input} placeholder = "CEP"/>
-                            <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
-                            <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
-                            <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>
-                            <Text style= {styles.titulo2}>Cadastro de Pets</Text>
-                            <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
-                            <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
-                            {/* <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text> */}
-
-                       
-                        </KeyboardAvoidingView> 
-                   
-                </KeyboardAvoidingView> 
-        </ScrollView>
-                
-                    <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Cliente Cadastrado</Text>
-                                <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => setModalVisible(!modalVisible)}>
-                                <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </Modal>
-
-                    <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
-                        <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
-                        
+            <KeyboardAvoidingView style = {{ paddingTop: 20}} behavior='padding'>              
+                <Text style= {{...styles.titulo, marginBottom: 20}}>Cadastro de Clientes</Text>
+                <View style={[styles.container, {marginTop: image ? 50 : 0}]}>
+                    <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
+                    {image && <Image source={{ uri: image }} style={styles.image} />}
+                </View>
+                <Text style={styles.inputLabel}>Nome:</Text>
+                <TextInput value={nomeCli} onChangeText={ e => {setNomeCli(e)} } style={styles.input} placeholder = "Nome:"/>  
+                <Text style={styles.inputLabel}>CPF:</Text>
+                <TextInput value={cpf} onChangeText={ e => {setCpf(e)} } style={styles.input} placeholder = "CPF:"/>                 
+                <Text style={styles.inputLabel}>Rua:</Text>
+                <TextInput value={rua} onChangeText={ e => {setRua(e)} } style={styles.input} placeholder = "Rua:"/>
+                <Text style={styles.inputLabel}>Bairro:</Text>
+                <TextInput value={bairro} onChangeText={ e => {setBairro(e)} } style={styles.input} placeholder = "Bairro:"/>
+                <Text style={styles.inputLabel}>Cidade:</Text>
+                <TextInput value={cidade} onChangeText={ e => {setCidade(e)} } style={styles.input} placeholder = "Cidade:"/>
+                <Text style={styles.inputLabel}>Estado:</Text>
+                <TextInput value={estado} onChangeText={ e => {setEstado(e)} } style={styles.input} placeholder = "Estado"/>
+                <Text style={styles.inputLabel}>País:</Text>
+                <TextInput value={pais} onChangeText={ e => {setPais(e)} } style={styles.input} placeholder = "Pais:"/>
+                <Text style={styles.inputLabel}>CEP:</Text>
+                <TextInput value={cep} onChangeText={ e => {setCep(e)} } style={styles.input} placeholder = "CEP"/>
+                <Text style={styles.inputLabel}>Telefone:</Text>
+                <TextInput value={telefone} onChangeText={ e => {setTelefone(e)} } style={styles.input} placeholder = "Telefone"/>
+                <Text style={styles.inputLabel}>Email:</Text>
+                <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
+                <Text style={styles.inputLabel}>Senha:</Text>
+                <TextInput value={password} onChangeText={ e => {setPassword(e)} } style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
+                <Text style= {styles.titulo2}>Cadastro de Pets</Text>
+                <Text style={styles.inputLabel}>Nome:</Text>
+                <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>
+                <Text style={styles.inputLabel}>Raça:</Text>                
+                <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
+                {/* <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text> */}                    
+            </KeyboardAvoidingView>
+            <Modal 
+                animationType="slide" 
+                transparent={true} 
+                visible={modalVisible} 
+                onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Cliente Cadastrado</Text>
                         <Pressable
-                            style={[styles.button, styles.buttonOpen]}
-                             >
-                            <Text onPress={ () => cadastrarFoto() } style={styles.textStyle}>ENVIAR</Text>
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
                         </Pressable>
-                    </View>      
-        </>
+                    </View>
+                </View>
+            </Modal>
+
+            <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:20}}>
+                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
+                
+                <TouchableOpacity
+                    style={[styles.button, styles.buttonOpen]}
+                    disabled={enviandoDados}
+                        >
+                    <Text onPress={ () => cadastrarFoto() } style={styles.textStyle}>ENVIAR</Text>
+                </TouchableOpacity>
+            </View>      
+        </ScrollView>
+
     )
 }
 
@@ -192,6 +218,10 @@ const styles = StyleSheet.create({
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
+    },
+    inputLabel: {
+        marginHorizontal: 12,
+        paddingHorizontal: 10
     },
    
     textStyle: {

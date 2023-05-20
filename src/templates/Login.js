@@ -32,8 +32,10 @@ const Login = ({navigation}) => {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
                 <Text style= {styles.titulo}>Bem Vindo ao PetShop</Text>
+                <Text style={styles.inputLabel}>Email/CPF:</Text>
                 <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP"/>
-                <TextInput value = {password} onChangeText = {e => {setPassword(e)}} style={styles.input} placeholder = "Senha"/>
+                <Text style={styles.inputLabel}>Senha:</Text>
+                <TextInput value = {password} onChangeText = {e => {setPassword(e)}} style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
@@ -72,7 +74,11 @@ const styles = StyleSheet.create({
         backgroundColor: "pink",
         height:50, width:100,
         borderRadius:10
-    }
+    },
+    inputLabel: {
+        marginHorizontal: 12,
+        paddingHorizontal: 10
+    },
 })
 
 export default Login;
