@@ -48,7 +48,7 @@ const CadastroCli= ({navigation}) => {
     const [password, setPassword] = useState('')
     const [enviandoDados, setEnviandoDados] = useState(false)
   
-    const cadastrarFoto = async () => {
+    const cadastrarFoto = async (id) => {
         let filename = image.split('/').pop();
 
         let match = /\.(\w+)$/.exec(filename);
@@ -56,13 +56,17 @@ const CadastroCli= ({navigation}) => {
 
         let formData = new FormData();
         formData.append('File', { uri: image, name: filename, type });
+        formData.append('tipo', 'cliente')
+        formData.append('id', id)
+    
 
         const fotos = {
-            File:image
+            File:image,tipo:'cliente', id
         }
-        const url = 'http://pet-shop-back.vercel.app'
-        //const url = 'http://192.168.0.138:3333'
-        axios.post (url+'/uploads', fotos, {
+        // const url = 'http://pet-shop-back.vercel.app'
+        //const url = 'http://192.168.0.138:3333' RAFA
+        const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/uploads', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }}
         ).then(response => {
             console.log('Then', response.data);
@@ -93,17 +97,18 @@ const CadastroCli= ({navigation}) => {
                 email: email,
                 cpf: cpf,
                 dependentes:{
-                nomeDep: nomeDep,
-                raca: raca},
-                password
+                    nomeDep: nomeDep,
+                    raca: raca},
+                password:password
         }
         console.log('Foi', varJson);
         const url = 'http://pet-shop-back.vercel.app'
         axios.post(url+'/cliente', varJson
  
         ).then(async response => {
+            const id = response.data.criarCliente._id
             console.log('Then', response.data);
-            const cadFotos = await cadastrarFoto()
+            const cadFotos = await cadastrarFoto(id)
         })
         .catch(error => {
             console.log('catch 2222', {error});
@@ -173,7 +178,7 @@ const CadastroCli= ({navigation}) => {
                     style={[styles.button, styles.buttonOpen]}
                     disabled={enviandoDados}
                         >
-                    <Text onPress={ () => cadastrarFoto() } style={styles.textStyle}>ENVIAR</Text>
+                    <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                 </TouchableOpacity>
             </View>      
         </ScrollView>
