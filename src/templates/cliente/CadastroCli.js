@@ -147,12 +147,7 @@ const CadastroCli= ({navigation}) => {
                 <TextInput value={email} onChangeText={ e => {setEmail(e)} } style={styles.input} placeholder = "Email"/>
                 <Text style={styles.inputLabel}>Senha:</Text>
                 <TextInput value={password} onChangeText={ e => {setPassword(e)} } style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
-                <Text style= {styles.titulo2}>Cadastro de Pets</Text>
-                <Text style={styles.inputLabel}>Nome:</Text>
-                <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>
-                <Text style={styles.inputLabel}>Raça:</Text>                
-                <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
-                {/* <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textPets} >Cadastrar Pets</Text> */}                    
+                                    
             </KeyboardAvoidingView>
             <Modal 
                 animationType="slide" 

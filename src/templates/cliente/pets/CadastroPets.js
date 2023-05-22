@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-
+import * as ImagePicker from 'expo-image-picker';
 
 const CadastroPets = () =>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,15 +25,48 @@ const CadastroPets = () =>{
     const [nomeDep, setNomeDep] = useState('')
     const [raca, setRaca] = useState('')
 
+    const cadastrarFoto = async (id) => {
+        let filename = image.split('/').pop();
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('File', { uri: image, name: filename, type });
+        formData.append('tipo', 'pet')
+        formData.append('id', id)
+    
+
+        const fotos = {
+            File:image,tipo:'pet', id
+        }
+        // const url = 'http://pet-shop-back.vercel.app'
+        //const url = 'http://192.168.0.138:3333' RAFA
+        const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/uploads', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }}
+        ).then(response => {
+            console.log('Then', response.data);
+            setModalVisible(true)
+            
+        })
+        .catch(error => {
+            console.log('catch 333', error);
+        }).finally(() => {
+            setEnviandoDados(false);
+        })
+    }
+
     const cadastrarPets = () =>{
         var varJson = {
             nomeDep: nomeDep,
             raca: raca
         }
         console.log('Foi', varJson);
-        axios.post('https://pet-shop-back.vercel.app/cliente', varJson
-).then(response => {
+        axios.post('https://pet-shop-back.vercel.app/pet', varJson
+).then(async response => {
         console.log('Then', response.data);
+        const cadFotos = await cadastrarFoto(id)
     })
     .catch(error => {
         console.log('catch', error.response);
@@ -47,10 +80,10 @@ const CadastroPets = () =>{
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro novo Pets</Text>
-                            {/* <View style={[styles.container]}>
+                            <View style={[styles.container]}>
                                 <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
                                 {image && <Image source={{ uri: image }} style={styles.image} />}
-                            </View> */}
+                            </View>
                             <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
                             <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
                             
