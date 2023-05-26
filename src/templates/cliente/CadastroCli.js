@@ -96,9 +96,6 @@ const CadastroCli= ({navigation}) => {
                 telefone:telefone,
                 email: email,
                 cpf: cpf,
-                dependentes:{
-                    nomeDep: nomeDep,
-                    raca: raca},
                 password:password
         }
         console.log('Foi', varJson);

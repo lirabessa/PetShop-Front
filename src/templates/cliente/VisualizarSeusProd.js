@@ -1,13 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
 
 const VisualizarSeusProd = ({navigation}) =>{
 
 //********************************AXIOS************* */
+  const [prod, setProd] = useState([])
 
+  const buscarProd = async () => {
+    const token = await SecureStore.getItemAsync("token")
+    axios.get('https://pet-shop-back.vercel.app/carrinhos', {
+      maxRedirects: 0,
+      validateStatus: function (status) {
+        return status >= 200 && status < 303;
+      }, headers: { Authorization: token } 
+    }).then(response => {
+      console.log('esse then');
+      setProd(response.data)
+    })
+      .catch(error => {
+        console.log('catch', error);
+      })
+  }
+
+  useEffect(() => {
+    buscarProd()
+  }, [])
+  
 
   //************************AXIOS********************** */
 
@@ -22,27 +43,31 @@ const VisualizarSeusProd = ({navigation}) =>{
 
                 
         
-            <View style={styles.item}>
+          {
+            prod.map((prod)=> (
+              <View style={styles.item} key={prod._id}>
         
                 <View style={styles.square}></View> 
                 <View style={{ flex: 1}}>
-                    <Text>Sua Tia</Text>
+                    <Text>{prod.nomeProd}</Text>
                 </View>
                 <View style={{ flex: 1}}>
-                    <Text>Preço: 5,99</Text>
+                    <Text>{prod.preco}</Text>
                 </View>
 
                 <Icon.Button name="trash-o" 
                     size={20} color="red"
                     backgroundColor = '#FFF'>
                 </Icon.Button>
-            </View>
-         
+              </View>
+            ))}
+        
             </ScrollView>
         </>
       
     )
 }
+
 
 const styles = StyleSheet.create({
     titulo: {

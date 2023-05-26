@@ -21,7 +21,7 @@ const [pets, setPets] = useState([])
         return status >= 200 && status < 303;
       }, headers: { Authorization: token } 
     }).then(response => {
-     console.log('esse then');
+    console.log('esse then');
       setPets(response.data)
     })
       .catch(error => {
