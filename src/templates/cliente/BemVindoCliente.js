@@ -21,10 +21,10 @@ const BemVindoCli = ({navigation}) => {
                                     <Text onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Agendar Consultas</Text>
                                 </Pressable> */}
 
-                                {/* <Pressable
+                                <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
-                                    <Text style={styles.textStyle}>Visualizar seus Produtos</Text>
-                                </Pressable> */}
+                                    <Text onPress={()=>navigation.navigate("VisualizarSeusProd")} style={styles.textStyle}>Visualizar seus Produtos</Text>
+                                </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>

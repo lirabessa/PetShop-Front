@@ -13,12 +13,13 @@ import CadastroProd from '../templates/produto/cadastroProduto'
 import VisulizarProdFunc from '../templates/produto/VisualizarProdutosFunc'
 import VisualizarSeusPet from '../templates/cliente/pets/VisualizarSeusPet'
 import CadastroPets from '../templates/cliente/pets/CadastroPets';
+import VisualizarSeusProd from '../templates/cliente/VisualizarSeusProd'
 
 export default function Routes(){
     const Stack = createNativeStackNavigator();
     return(     
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="CadastroFunc">
+                <Stack.Navigator  initialRouteName="Login">
                     <Stack.Screen name = "TelaHome" component= {TelaHome}/>
                     <Stack.Screen name = "CadastroFunc"component= {CadastroFunc}/>
                     <Stack.Screen name="CadastroCli"component={CadastroCli} />
@@ -32,6 +33,7 @@ export default function Routes(){
                     <Stack.Screen name="VisulizarProdFunc" component={VisulizarProdFunc}/>
                     <Stack.Screen name="VisualizarSeusPet" component={VisualizarSeusPet}/>
                     <Stack.Screen name="CadastroPets" component={CadastroPets}/>
+                    <Stack.Screen name="VisualizarSeusProd" component={VisualizarSeusProd}/>
                 </Stack.Navigator>
             </NavigationContainer> 
     )

@@ -1,37 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as SecureStore from 'expo-secure-store'
 
 import axios from "axios";
 
-const VisualizarSeusPet = ({navigation}) =>{
+const VisualizarSeusProd = ({navigation}) =>{
 
 //********************************AXIOS************* */
 
-const [pets, setPets] = useState([])
-
-  
-
-  const buscarPet = async () => {
-    const token = await SecureStore.getItemAsync("token")
-    axios.get('https://pet-shop-back.vercel.app/pets', {
-      maxRedirects: 0,
-      validateStatus: function (status) {
-        return status >= 200 && status < 303;
-      }, headers: { Authorization: token } 
-    }).then(response => {
-     console.log('esse then');
-      setPets(response.data)
-    })
-      .catch(error => {
-        console.log('catch', error);
-      })
-  }
-
-  useEffect(() => {
-    buscarPet()
-  }, [])
 
   //************************AXIOS********************** */
 
@@ -40,20 +16,20 @@ const [pets, setPets] = useState([])
         <>
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
-                    <Text style={styles.titulo}>Seus Pets</Text>
+                    <Text style={styles.titulo}>Seus Produtos</Text>
                 </KeyboardAvoidingView>
             
 
-                {
-        pets.map((pets) => (
-            <View style={styles.item} key={pets._id}>
+                
+        
+            <View style={styles.item}>
         
                 <View style={styles.square}></View> 
                 <View style={{ flex: 1}}>
-                    <Text>{pets.nomeDep}</Text>
+                    <Text>Sua Tia</Text>
                 </View>
                 <View style={{ flex: 1}}>
-                    <Text>{pets.raca}</Text>
+                    <Text>Preço: 5,99</Text>
                 </View>
 
                 <Icon.Button name="trash-o" 
@@ -61,7 +37,7 @@ const [pets, setPets] = useState([])
                     backgroundColor = '#FFF'>
                 </Icon.Button>
             </View>
-        ))}    
+         
             </ScrollView>
         </>
       
@@ -98,4 +74,4 @@ const styles = StyleSheet.create({
   
   })
 
-export default VisualizarSeusPet;
+export default VisualizarSeusProd;

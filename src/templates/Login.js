@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
 import axios from "axios";
+import * as SecureStore from 'expo-secure-store'
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ const Login = ({navigation}) => {
             password:password
         }
         axios.post('https://pet-shop-back.vercel.app/login', varJson
-        ).then(response => {
+        ).then(async response => {
+            await SecureStore.setItemAsync("token","Bearer " + response.data.token)
             console.log('then',response.data);
             if(response.data.tipo === 'Funcionario'){
                 console.log("FOI FUNC");
