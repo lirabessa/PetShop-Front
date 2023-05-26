@@ -28,6 +28,21 @@ const VisualizarSeusProd = ({navigation}) =>{
   useEffect(() => {
     buscarProd()
   }, [])
+
+  const DeletarProdInCli = async (id) =>{
+    const token = await SecureStore.getItemAsync("token")
+    axios.delete(`https://pet-shop-back.vercel.app/carrinho/${id}`,
+    {headers: { Authorization: token }} )
+    .then(response => {
+      buscarProd();
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log('Erro ao excluir o produto', error);
+    })
+  }
+
+
   
 
   //************************AXIOS********************** */
@@ -57,8 +72,9 @@ const VisualizarSeusProd = ({navigation}) =>{
 
                 <Icon.Button name="trash-o" 
                     size={20} color="red"
-                    backgroundColor = '#FFF'>
-                </Icon.Button>
+                    backgroundColor = '#FFF'
+                    onPress={() => DeletarProdInCli(prod._id)}
+                ></Icon.Button>
               </View>
             ))}
         

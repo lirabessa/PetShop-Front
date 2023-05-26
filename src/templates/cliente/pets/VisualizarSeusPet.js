@@ -28,10 +28,24 @@ const [pets, setPets] = useState([])
         console.log('catch', error);
       })
   }
+  
 
   useEffect(() => {
     buscarPet()
   }, [])
+
+  const DeletarSeusPets = async (id) =>{
+    const token = await SecureStore.getItemAsync("token")
+    axios.delete(`https://pet-shop-back.vercel.app/pet/${id}`,
+    {headers: { Authorization: token }} )
+    .then(response => {
+      buscarPet();
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log('Erro ao excluir o Pet', error);
+    })
+  }
 
   //************************AXIOS********************** */
 
@@ -58,7 +72,8 @@ const [pets, setPets] = useState([])
 
                 <Icon.Button name="trash-o" 
                     size={20} color="red"
-                    backgroundColor = '#FFF'>
+                    backgroundColor = '#FFF'
+                    onPress={() => DeletarSeusPets(pets._id)}>
                 </Icon.Button>
             </View>
         ))}    

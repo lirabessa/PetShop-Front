@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
-import { View ,Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
+import { View ,Pressable, Modal, Image, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
+import * as SecureStore from 'expo-secure-store'
+import axios from "axios";
 
-const CadastroPets = () =>{
+const CadastroPets = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
     const [image, setImage] = useState(null);
+    const [enviandoDados, setEnviandoDados] = useState(false)
 
     const pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -57,14 +60,18 @@ const CadastroPets = () =>{
         })
     }
 
-    const cadastrarPets = () =>{
+    //******************AXIOS************* */
+    const cadastrarPets = async () =>{
+        setEnviandoDados(true);
+        const token = await SecureStore.getItemAsync("token")
         var varJson = {
             nomeDep: nomeDep,
             raca: raca
         }
         console.log('Foi', varJson);
-        axios.post('https://pet-shop-back.vercel.app/pet', varJson
-).then(async response => {
+        axios.post('https://pet-shop-back.vercel.app/pet', varJson,
+        {headers: { Authorization: token }}
+        ).then(async response => {
         console.log('Then', response.data);
         const cadFotos = await cadastrarFoto(id)
     })
@@ -73,6 +80,9 @@ const CadastroPets = () =>{
     });
     setModalVisible(true)
     }
+
+
+    //************AXIOS****************** */
     return(
         <>
             <ScrollView>
@@ -80,13 +90,16 @@ const CadastroPets = () =>{
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {styles.titulo}>Cadastro novo Pets</Text>
+                 
                             <View style={[styles.container]}>
                                 <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
                                 {image && <Image source={{ uri: image }} style={styles.image} />}
                             </View>
+ 
                             <TextInput value={nomeDep} onChangeText={ e => {setNomeDep(e)} } style={styles.input} placeholder = "Nome:"/>                   
                             <TextInput value={raca} onChangeText={ e => {setRaca(e)} } style={styles.input} placeholder = "Raça:"/>
-                            
+                       
+                    
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView> 
@@ -99,7 +112,7 @@ const CadastroPets = () =>{
                                 <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
+                                <Text onPress={()=>navigation.navigate("BemVindoCli")} style={styles.textStyle}>Voltar</Text>
                                 </Pressable>
                             </View>
                         </View>
