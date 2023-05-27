@@ -3,26 +3,34 @@ import { View, Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, 
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as ImagePicker from 'expo-image-picker';
+import * as SecureStore from 'expo-secure-store'
 
 import { Logs } from 'expo'
 
 Logs.enableExpoCliLogging()
 
-const VeiwCli = ({navigation}) => {
+const VeiwCli = ({route, navigation}) => {
+
+    const {id} = route.params
 
     const [editUserInfo, setEditUserInfo] = useState({
         nome: false,
+        cpf: false,
         telefone: false,
         email: false,
         rua: false,
-        bairro: false
+        bairro: false,
+        cidade: false
       }); 
 
     const [nome, setNome] = useState("Kaenu");
+    const [cpf, setCpf] = useState('CPF');
     const [telefone, setTelefone] = useState("12 99887766");
     const [email, setEmail] = useState("kaenu@hives");
     const [rua, setRua] = useState("Matrixx");
     const [bairro, setBairro] = useState("Caverna");
+    const [cidade, setCidade] = useState('Cidade')
 
     const campos = [
         {
@@ -35,6 +43,18 @@ const VeiwCli = ({navigation}) => {
             },
             setEditInfoFalse: {
                 ...editUserInfo, nome: false
+            }
+        },
+        {
+            campo: "cpf", 
+            state: cpf, 
+            onchange: (e) => setCpf(e), 
+            label: "CPF", 
+            setEditInfo: {
+                ...editUserInfo, cpf: true
+            },
+            setEditInfoFalse: {
+                ...editUserInfo, cpf: false
             }
         },
         {
@@ -85,17 +105,58 @@ const VeiwCli = ({navigation}) => {
                 ...editUserInfo, bairro: false
             }
         },
+        {
+            campo: 'cidade',
+            state: cidade,
+            onchange: (e) => setCidade(e),
+            label: 'Cidade',
+            setEditInfo: {
+                ...editUserInfo, cidade: true
+            },
+            setEditInfoFalse: {
+                ...editUserInfo, cidade: false
+            }
+        }
     ]
 
     const petsMock = [
-        {nome: "Rex", raca: "dinossauro", editar: false},
-        {nome: "Raptor", raca: "dinossauro", editar: false},
-        {nome: "Triporodonte", raca: "dinossauro", editar: false} 
+        {nomeDep: "Rex", raca: "dinossauro", editar: false},
+        {nomeDep: "Raptor", raca: "dinossauro", editar: false},
+        {nomeDep: "Triporodonte", raca: "dinossauro", editar: false} 
     ]
     const [pets, setPets] = React.useState(petsMock)
 
     const [petNome, setPetNome] = React.useState("")
     const [petRaca, setPetRaca] = React.useState("")
+    const [image, setImage] = useState(null);
+
+    React.useEffect(() => {
+        buscarCli()
+    }, [id])
+
+    const buscarCli = async () => {
+        // const url = 'http://pet-shop-back.vercel.app/'
+        const url = 'http://192.168.0.138:3333/'
+        axios.get(url+'cliente/'+id,{
+            maxRedirects: 0,
+            validateStatus: function (status) {
+              return status >= 200 && status < 303;
+            }
+          }).then(response => {
+          const cliente = response.data.readCliente
+          setNome(cliente.nomeCli)
+          setTelefone(cliente.telefone)
+          setEmail(cliente.email)
+          setCpf(cliente.cpf)
+          setRua(cliente.endereco.rua)
+          setBairro(cliente.endereco.bairro)
+          setCidade(cliente.endereco.cidade)
+          setPets(cliente.dependentes)
+        })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     
     const editarPet = (index) => {
         const pet = pets[index]
@@ -106,10 +167,85 @@ const VeiwCli = ({navigation}) => {
     }
 
     const concluirAlteracao = (index) => {
+        const data = {
+            idCli: id,
+            idPet: pets[index]._id,
+            nome: pets[index].nomeDep,
+            raca: pets[index].raca
+        }
+        axios.put("http://192.168.0.138:3333/pet", data,{maxRedirects: 0,
+        validateStatus: function (status) {
+          return status >= 200 && status < 303;
+        }}).then(res=>{
+            // console.log(res.data)
+        }).catch(erro => {
+            console.error(erro)
+        })
         setPetNome('')
         setPetRaca('')
         pets[index].editar = false
         setPets(pets)
+    }
+
+    const alteraImagem = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+      
+          if (!result.canceled) {
+            setImage(result.uri);
+          }
+    }
+
+    const adicionaPet = () => {
+        setPets(pets.concat({nome: "", raca: "", editar: false}))
+    }
+
+    const salvar = () => {
+        const data = {
+            nomeCli: nome, 
+            rua, 
+            bairro, 
+            cidade,
+            telefone, 
+            email, 
+            cpf
+        }
+        // const url = 'http://pet-shop-back.vercel.app/'
+        const url = 'http://192.168.0.138:3333/'
+        axios.put(url+'cliente/'+id, data, {
+            maxRedirects: 0,
+            validateStatus: function (status) {
+              return status >= 200 && status < 303;
+            }
+          }).then(res => {
+            navigation.navigate('VisualizarCli')
+          }).catch(err => {
+            console.log(err)
+          })
+    }
+
+    const removePet = async (index) => {
+        
+        const pet = pets[index]
+        const url = 'http://192.168.0.138:3333/'
+        const token = await SecureStore.getItemAsync("token")
+        console.log(token)
+        axios.delete(url+'pet/'+pet._id, {
+            maxRedirects: 0,
+            validateStatus: function (status) {
+              return status >= 200 && status < 303;
+            }, headers: { authorization: token } 
+          }).then(res => {
+            const objects = pets.filter((p, i) => i!=index && p)
+            setPets(objects)
+        }).catch(err => {
+            console.log(err)
+        })
+        
     }
 
 
@@ -125,13 +261,18 @@ const VeiwCli = ({navigation}) => {
                                 display: "flex",
                                 flexDirection: "row",
                                 alignItems: "center",
-                                justifyContent: "center",
+                                justifyContent: "space-around",
                                 marginTop: 20,
                             }}>
                                 <Image 
                                 source={{uri:"https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/a983ociqyrdchffwvfbt"}}
                                 style = {{width:100, height:100}}/>
-                                <Text style = {{margin: 5}}> Kaenu Hives da Shopee</Text>
+                                <View style={{flex: .85}}>
+                                    <Text style = {{margin: 5, flex: .9}}> {nome}</Text>
+                                    <TouchableOpacity onPress={alteraImagem}>
+                                        <Text>Alterar Imagem</Text>
+                                    </TouchableOpacity>
+                                </View>
                         </View>
                         {campos.map((campo, index)=> (
                             <View key = {index} style={{
@@ -183,53 +324,72 @@ const VeiwCli = ({navigation}) => {
                         <Text style={{width: "100%", textAlign: "center", fontSize: 25}}>Pets</Text> 
                         </View>   
                         {pets?.map((pet, index) => (
-                        <View key={index}>
-                        <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20}}>
-                            <Text>{pet.nome}</Text>
-                            <View>
-                                <Icon.Button 
-                                    name={pet.editar ? "check" : "edit"}
-                                    size={20} 
-                                    color="black"
-                                    backgroundColor="rgba(255,255,255,0)"
-                                    onPress={()=> pet.editar ? concluirAlteracao(index) : editarPet(index)}>
+                            <View key={index}>
+                            <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20}}>
+                                <Text>{pet.nomeDep}</Text>
+                                <View style={{flexDirection:"row"}}>
+                                    <Icon.Button 
+                                        name={pet.editar ? "check" : "edit"}
+                                        size={20} 
+                                        color="black"
+                                        backgroundColor="rgba(255,255,255,0)"
+                                        onPress={()=> pet.editar ? concluirAlteracao(index) : editarPet(index)}>
 
-                                </Icon.Button>
+                                    </Icon.Button>
+                                    <Icon.Button 
+                                        name="trash-o" 
+                                        size={20}
+                                        color="black"
+                                        backgroundColor="rgba(255,255,255,0)"
+                                        onPress={()=>removePet(index)}>    
+                                    </Icon.Button>
+                                </View>
                             </View>
-                        </View>
-                        <View style={{
-                                ...style.input, 
-                                width: '90%', 
-                                flexDirection: "row", 
-                                justifyContent: "space-between", 
-                                padding: 0}}>
-                                {pet.editar ? (
-                                    <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
-                                    value = {pet.nome} 
-                                    onChangeText={(e) => {
-                                        pets[index].nome = e
-                                        setPets([...pets])
-                                    }}/>
-                                    ):(<Text style = {{margin: 5}}>Nome: {pet.nome}</Text>)}
-                                
-                        </View>
-                        <View style={{
-                                ...style.input, 
-                                width: '90%', 
-                                flexDirection: "row", 
-                                justifyContent: "space-between", 
-                                padding: 0}}>
-                                {pet.editar ? (
-                                    <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}}
-                                    value = {pet.raca}
-                                    onChangeText={(e) => {
-                                        pets[index].raca = e
-                                        setPets([...pets])}}/>
-                                ):(<Text style = {{margin: 5}}>Raça: {pet.raca}</Text>)}
-                                
-                        </View>
+                            <View style={{
+                                    ...style.input, 
+                                    width: '90%', 
+                                    flexDirection: "row", 
+                                    justifyContent: "space-between", 
+                                    padding: 0}}>
+                                    {pet.editar ? (
+                                        <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
+                                        value = {pet.nomeDep} 
+                                        onChangeText={(e) => {
+                                            pets[index].nomeDep = e
+                                            setPets([...pets])
+                                        }}/>
+                                        ):(<Text style = {{margin: 5}}>Nome: {pet.nomeDep}</Text>)}
+                                    
+                            </View>
+                            <View style={{
+                                    ...style.input, 
+                                    width: '90%', 
+                                    flexDirection: "row", 
+                                    justifyContent: "space-between", 
+                                    padding: 0}}>
+                                    {pet.editar ? (
+                                        <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}}
+                                        value = {pet.raca}
+                                        onChangeText={(e) => {
+                                            pets[index].raca = e
+                                            setPets([...pets])}}/>
+                                    ):(<Text style = {{margin: 5}}>Raça: {pet.raca}</Text>)}
+                                    
+                            </View>
                         </View>            
                         ))}
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                            <TouchableOpacity 
+                                onPress={adicionaPet}
+                                style={[style.button, style.buttonOpen]}>
+                                <Text>Adicionar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={salvar}
+                                style={[style.button, style.buttonOpen]}>
+                                <Text>Aplicar</Text>
+                            </TouchableOpacity>
+                        </View>
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
@@ -241,6 +401,18 @@ const VeiwCli = ({navigation}) => {
 const style = StyleSheet.create ({
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
+    },
+    button: {
+        borderRadius: 10, 
+        padding: 15, 
+        height:50, 
+        textAlign:"center", 
+        flex: 1,
+        alignItems: 'center',
+        margin: 10,
+    },
+    buttonOpen: {
+        backgroundColor: 'pink',
     },
 })
 

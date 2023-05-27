@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Image} from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Image, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import axios from "axios";
@@ -37,11 +37,14 @@ const VisualizarCli = ({ navigation }) => {
     axios.delete(`https://pet-shop-back.vercel.app/cliente/${id}`)
       .then(response => {
         buscarCli();
-        console.log(response.data.message);
       })
       .catch(error => {
         console.log('Erro ao excluir o cliente', error);
       })
+  }
+
+  const verCliente = (cliente) => {
+    navigation.navigate('VeiwCli', {id: cliente._id})
   }
   
 
@@ -57,17 +60,16 @@ const VisualizarCli = ({ navigation }) => {
 
        
         <View style={styles.item} key={cli._id}>
-        
-         <View style={styles.square}>
-          <Text>{cli.image}</Text>
-          </View> 
+            <View style={styles.square} >
+              <Pressable onPress={()=>verCliente(cli)}><Text>{cli.image}</Text></Pressable>
+            </View> 
 
-            <View style={{ flex: 1}}>
-                <Text>{cli.nomeCli}</Text>
+            <View style={{ flex: 1}} >
+              <Pressable onPress={()=>verCliente(cli)}><Text>{cli.nomeCli}</Text></Pressable>
             </View>
 
-            <View style={{ flex: 1 }}>
-                <Text>{cli.telefone}</Text> 
+            <View style={{ flex: 1 }} >
+              <Pressable onPress={()=>verCliente(cli)}><Text>{cli.telefone}</Text></Pressable>
             </View>
 
 
