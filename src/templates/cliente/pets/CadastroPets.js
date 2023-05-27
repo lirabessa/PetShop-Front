@@ -30,6 +30,7 @@ const CadastroPets = ({navigation}) =>{
 
     const cadastrarFoto = async (id) => {
         let filename = image.split('/').pop();
+        console.log(image);
 
         let match = /\.(\w+)$/.exec(filename);
         let type = match ? `image/${match[1]}` : `image`;
@@ -39,15 +40,15 @@ const CadastroPets = ({navigation}) =>{
         formData.append('tipo', 'pet')
         formData.append('id', id)
     
-
-        const fotos = {
-            File:image,tipo:'pet', id
-        }
-        // const url = 'http://pet-shop-back.vercel.app'
+        const token = await SecureStore.getItemAsync("token")
+        const url = 'http://pet-shop-back.vercel.app'
         //const url = 'http://192.168.0.138:3333' RAFA
-        const url = 'http://10.0.2.2:3333'
-        axios.post (url+'/uploads', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }}
+        // const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/drive', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': token
+              }}
         ).then(response => {
             console.log('Then', response.data);
             setModalVisible(true)
@@ -73,10 +74,10 @@ const CadastroPets = ({navigation}) =>{
         {headers: { Authorization: token }}
         ).then(async response => {
         console.log('Then', response.data);
-        const cadFotos = await cadastrarFoto(id)
+        const cadFotos = await cadastrarFoto(response.data._id)
     })
     .catch(error => {
-        console.log('catch', error.response);
+        console.log('catch', error);
     });
     setModalVisible(true)
     }

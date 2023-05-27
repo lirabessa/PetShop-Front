@@ -36,10 +36,10 @@ const BemVindoCli = ({navigation}) => {
                                     <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textStyle}>Adicionar seu novo Pets</Text>
                                 </Pressable>
 
-                                <Pressable style={[styles.button, styles.buttonOpen]} 
+                                {/* <Pressable style={[styles.button, styles.buttonOpen]} 
                                     onPress={()=> navigation.navigate('VisualizarCli')}>
                                     <Text style={styles.textStyle}>VisualizarCli</Text>
-                                </Pressable>
+                                </Pressable> */}
 
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 

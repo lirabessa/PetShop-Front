@@ -59,8 +59,8 @@ const VisualizarSeusProd = ({navigation}) =>{
                 
         
           {
-            prod.map((prod)=> (
-              <View style={styles.item} key={prod._id}>
+            prod.map((prod, i)=> (
+              <View style={styles.item} key={prod._id +`-${i}`}>
         
                 <View style={styles.square}></View> 
                 <View style={{ flex: 1}}>
@@ -73,7 +73,7 @@ const VisualizarSeusProd = ({navigation}) =>{
                 <Icon.Button name="trash-o" 
                     size={20} color="red"
                     backgroundColor = '#FFF'
-                    onPress={() => DeletarProdInCli(prod._id)}
+                    onPress={() => DeletarProdInCli(prod._id.split('-')[0])}
                 ></Icon.Button>
               </View>
             ))}

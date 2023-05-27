@@ -15,6 +15,7 @@ const [pets, setPets] = useState([])
 
   const buscarPet = async () => {
     const token = await SecureStore.getItemAsync("token")
+    console.log(token)
     axios.get('https://pet-shop-back.vercel.app/pets', {
       maxRedirects: 0,
       validateStatus: function (status) {
