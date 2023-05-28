@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView} from 'react-native'
+import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, Pressable} from 'react-native'
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store'
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    handleDoubleTap = () => {
+        setEmail('teste@teste')
+        setPassword('abcd0102')
+    }
 
     const realizarLogin = () =>{
     
@@ -16,7 +21,7 @@ const Login = ({navigation}) => {
         axios.post('https://pet-shop-back.vercel.app/login', varJson
         ).then(async response => {
             await SecureStore.setItemAsync("token","Bearer " + response.data.token)
-            console.log('then',response.data);
+            console.log('Login response',response.data);
             if(response.data.tipo === 'Funcionario'){
                 console.log("FOI FUNC");
                 navigation.navigate("BemVindoFunc")
@@ -33,7 +38,7 @@ const Login = ({navigation}) => {
         <>           
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
-                <Text style= {styles.titulo}>Bem Vindo ao PetShop</Text>
+                <Pressable  onLongPress={handleDoubleTap}><Text style= {styles.titulo}>Bem Vindo ao PetShop</Text></Pressable>
                 <Text style={styles.inputLabel}>Email/CPF:</Text>
                 <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP"/>
                 <Text style={styles.inputLabel}>Senha:</Text>

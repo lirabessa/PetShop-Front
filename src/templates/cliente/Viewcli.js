@@ -24,6 +24,7 @@ const VeiwCli = ({route, navigation}) => {
         cidade: false
       }); 
 
+
     const [nome, setNome] = useState("Kaenu");
     const [cpf, setCpf] = useState('CPF');
     const [telefone, setTelefone] = useState("12 99887766");
@@ -125,10 +126,11 @@ const VeiwCli = ({route, navigation}) => {
         {nomeDep: "Triporodonte", raca: "dinossauro", editar: false} 
     ]
     const [pets, setPets] = React.useState(petsMock)
+    const mockFoto = "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/a983ociqyrdchffwvfbt"
 
     const [petNome, setPetNome] = React.useState("")
     const [petRaca, setPetRaca] = React.useState("")
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(mockFoto);
 
     React.useEffect(() => {
         buscarCli()
@@ -166,25 +168,31 @@ const VeiwCli = ({route, navigation}) => {
         setPets(pets)
     }
 
-    const concluirAlteracao = (index) => {
+    const concluirAlteracao = async (index) => {
         const data = {
             idCli: id,
             idPet: pets[index]._id,
-            nome: pets[index].nomeDep,
+            nomeDep: pets[index].nomeDep,
             raca: pets[index].raca
         }
-        axios.put("http://192.168.0.138:3333/pet", data,{maxRedirects: 0,
-        validateStatus: function (status) {
-          return status >= 200 && status < 303;
-        }}).then(res=>{
-            // console.log(res.data)
+        const baseUrl = 'http://192.168.0.138:3333/pet'
+        const funcaoPet = pets[index]._id ? axios.put : axios.post
+        const token = await SecureStore.getItemAsync("token")
+        funcaoPet(baseUrl, data,{
+            maxRedirects: 0,
+            validateStatus: function (status) {
+            return status >= 200 && status < 303;
+            }, 
+            headers: { authorization: token }
+         }).then(res=>{
+            setPetNome('')
+            setPetRaca('')
+            pets[index].editar = false
+            setPets(pets)
         }).catch(erro => {
             console.error(erro)
         })
-        setPetNome('')
-        setPetRaca('')
-        pets[index].editar = false
-        setPets(pets)
+        
     }
 
     const alteraImagem = async () => {
@@ -197,11 +205,39 @@ const VeiwCli = ({route, navigation}) => {
       
           if (!result.canceled) {
             setImage(result.uri);
+            salvaImagem()
           }
     }
 
+    const salvaImagem = () => {
+        let filename = image.split('/').pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('File', { uri: image, name: filename, type });
+        formData.append('tipo', 'cliente')
+        formData.append('id', id)
+        const fotos = {
+            File:image,tipo:'cliente', id
+        }
+        // const url = 'http://pet-shop-back.vercel.app'
+        const url = 'http://192.168.0.138:3333' //RAFA
+        //const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/uploads', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }}
+        ).then(response => {
+            console.log('Then', response.data);
+            //setModalVisible(true)
+            
+        })
+        .catch(error => {
+            console.log('catch 333', error);
+        })
+    }
+
     const adicionaPet = () => {
-        setPets(pets.concat({nome: "", raca: "", editar: false}))
+        setPets(pets.concat({nome: "", raca: "", editar: true}))
     }
 
     const salvar = () => {
@@ -265,7 +301,7 @@ const VeiwCli = ({route, navigation}) => {
                                 marginTop: 20,
                             }}>
                                 <Image 
-                                source={{uri:"https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/a983ociqyrdchffwvfbt"}}
+                                source={{uri:image}}
                                 style = {{width:100, height:100}}/>
                                 <View style={{flex: .85}}>
                                     <Text style = {{margin: 5, flex: .9}}> {nome}</Text>
@@ -320,6 +356,11 @@ const VeiwCli = ({route, navigation}) => {
                            
                             
                         </View> 
+                        <TouchableOpacity
+                                onPress={salvar}
+                                style={[style.button, style.buttonOpen, {width: '85%', marginLeft: '7%'}]}>
+                                <Text>Aplicar</Text>
+                            </TouchableOpacity>
                         <View style={{paddingTop: 25}}>
                         <Text style={{width: "100%", textAlign: "center", fontSize: 25}}>Pets</Text> 
                         </View>   
@@ -378,18 +419,11 @@ const VeiwCli = ({route, navigation}) => {
                             </View>
                         </View>            
                         ))}
-                        <View style={{display: 'flex', flexDirection: 'row'}}>
-                            <TouchableOpacity 
-                                onPress={adicionaPet}
-                                style={[style.button, style.buttonOpen]}>
-                                <Text>Adicionar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={salvar}
-                                style={[style.button, style.buttonOpen]}>
-                                <Text>Aplicar</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity 
+                            onPress={adicionaPet}
+                            style={[style.button, style.buttonOpen, {width: '85%', marginLeft: '7%'}]}>
+                            <Text>Adicionar</Text>
+                        </TouchableOpacity>
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>

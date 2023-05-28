@@ -22,8 +22,36 @@ const CadastroPets = ({navigation}) =>{
   
       if (!result.canceled) {
         setImage(result.uri);
+        salvaImagem()
       }
     };
+
+    const salvaImagem = () => {
+        let filename = image.split('/').pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('File', { uri: image, name: filename, type });
+        formData.append('tipo', 'cliente')
+        formData.append('id', id)
+        const fotos = {
+            File:image,tipo:'pet', id
+        }
+        // const url = 'http://pet-shop-back.vercel.app'
+        const url = 'http://192.168.0.138:3333' //RAFA
+        //const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/uploads', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }}
+        ).then(response => {
+            console.log('Then', response.data);
+            //setModalVisible(true)
+            
+        })
+        .catch(error => {
+            console.log('catch 333', error);
+        })
+    }
 
     const [nomeDep, setNomeDep] = useState('')
     const [raca, setRaca] = useState('')
