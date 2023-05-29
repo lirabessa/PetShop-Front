@@ -65,10 +65,10 @@ const CadastroCli= ({navigation}) => {
             File:image,tipo:'cliente', id
         }
         const token = await SecureStore.getItemAsync("token")
-        const url = 'http://pet-shop-back.vercel.app'
+    
         //const url = 'http://192.168.0.138:3333' RAFA
         // const url = 'http://10.0.2.2:3333'
-        axios.post (url+'/drive', formData, {
+        axios.post ('http://pet-shop-back.vercel.app/drive', formData, {
             headers: { 'Content-Type': 'multipart/form-data' ,  Authorization: token }}
         ).then(response => {
             console.log('Then', response.data);
