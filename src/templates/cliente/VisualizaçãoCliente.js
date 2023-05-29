@@ -19,7 +19,7 @@ const VisualizarCli = ({ navigation }) => {
         return status >= 200 && status < 303;
       }
     }).then(response => {
-    //   console.log('esse then', response.data.readCliente);
+      console.log('esse then', response.data.readCliente[0]);
       setClientes(response.data.readCliente)
     //   console.log('aqui foi amem');
     })
@@ -60,13 +60,18 @@ const VisualizarCli = ({ navigation }) => {
 
        
         <View style={styles.item} key={cli._id}>
-            <View style={styles.square} >
+          
+    {
+      cli.foto ? (<Image source={{uri:cli.foto?.src}} style={{width: 50, height: 50, borderRadius: 5, marginRight: 15,}}/>): (<View style={styles.square}></View>)
+    }
+          <View  >
               <Pressable onPress={()=>verCliente(cli)}><Text>{cli.image}</Text></Pressable>
             </View> 
 
             <View style={{ flex: 1}} >
               <Pressable onPress={()=>verCliente(cli)}><Text>{cli.nomeCli}</Text></Pressable>
             </View>
+           
 
             <View style={{ flex: 1 }} >
               <Pressable onPress={()=>verCliente(cli)}><Text>{cli.telefone}</Text></Pressable>

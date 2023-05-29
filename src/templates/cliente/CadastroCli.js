@@ -7,6 +7,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
+import * as SecureStore from 'expo-secure-store'
 
 
 const CadastroCli= ({navigation}) => {
@@ -63,15 +64,14 @@ const CadastroCli= ({navigation}) => {
         const fotos = {
             File:image,tipo:'cliente', id
         }
-        // const url = 'http://pet-shop-back.vercel.app'
+        const token = await SecureStore.getItemAsync("token")
+        const url = 'http://pet-shop-back.vercel.app'
         //const url = 'http://192.168.0.138:3333' RAFA
-        const url = 'http://10.0.2.2:3333'
-        axios.post (url+'/uploads', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }}
+        // const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/drive', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' ,  Authorization: token }}
         ).then(response => {
             console.log('Then', response.data);
-            setModalVisible(true)
-            
         })
         .catch(error => {
             console.log('catch 333', error);
@@ -105,7 +105,8 @@ const CadastroCli= ({navigation}) => {
         ).then(async response => {
             const id = response.data.criarCliente._id
             console.log('Then', response.data);
-            const cadFotos = await cadastrarFoto(id)
+            await cadastrarFoto(id)
+            setModalVisible(true)
         })
         .catch(error => {
             console.log('catch 2222', {error});
@@ -114,9 +115,25 @@ const CadastroCli= ({navigation}) => {
         
     }
     return(
-            
-        <ScrollView>
-            <KeyboardAvoidingView style = {{ paddingTop: 20}} behavior='padding'>              
+            <>
+             <Modal 
+                animationType="slide" 
+                transparent={true} 
+                visible={modalVisible} 
+                onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Cliente Cadastrado</Text>
+                        <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+        <ScrollView >
+            {/* <KeyboardAvoidingView style = {{ paddingTop: 20}} behavior='padding'>               */}
                 <Text style= {{...styles.titulo, marginBottom: 20}}>Cadastro de Clientes</Text>
                 <View style={[styles.container, {marginTop: image ? 50 : 0}]}>
                     <Text style= {styles.buttton} onPress={pickImage}>Selecionar imagem</Text>
@@ -145,23 +162,9 @@ const CadastroCli= ({navigation}) => {
                 <Text style={styles.inputLabel}>Senha:</Text>
                 <TextInput value={password} onChangeText={ e => {setPassword(e)} } style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
                                     
-            </KeyboardAvoidingView>
-            <Modal 
-                animationType="slide" 
-                transparent={true} 
-                visible={modalVisible} 
-                onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Cliente Cadastrado</Text>
-                        <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
+            {/* </KeyboardAvoidingView> */}
+           
+        </ScrollView>
 
             <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:20}}>
                 <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
@@ -173,8 +176,7 @@ const CadastroCli= ({navigation}) => {
                     <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                 </TouchableOpacity>
             </View>      
-        </ScrollView>
-
+</>
     )
 }
 
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,backgroundColor: 'white',borderRadius: 20,padding: 35,alignItems: 'center',shadowColor: '#000',
         shadowOffset: {
-          width: 0,height: 2,
+        width: 0,height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
@@ -247,7 +249,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: 'white', fontWeight: 'bold', textAlign: 'center',
-      },
+    },
     modalText: {
         marginBottom: 15, textAlign: 'center',
     }
