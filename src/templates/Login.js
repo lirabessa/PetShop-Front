@@ -9,7 +9,7 @@ const Login = ({navigation}) => {
 
     handleDoubleTap = () => {
         setEmail('teste@teste')
-        setPassword('abcd0102')
+        setPassword('teste')
     }
 
     const realizarLogin = () =>{
@@ -23,7 +23,6 @@ const Login = ({navigation}) => {
             await SecureStore.setItemAsync("token","Bearer " + response.data.token)
             console.log('Login response',response.data);
             if(response.data.tipo === 'Funcionario'){
-                console.log("FOI FUNC");
                 navigation.navigate("BemVindoFunc")
             }else{
                 navigation.navigate("BemVindoCli")
@@ -40,7 +39,7 @@ const Login = ({navigation}) => {
             <View style = {{marginTop: 90}}>
                 <Pressable  onLongPress={handleDoubleTap}><Text style= {styles.titulo}>Bem Vindo ao PetShop</Text></Pressable>
                 <Text style={styles.inputLabel}>Email/CPF:</Text>
-                <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP"/>
+                <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP" type="email"/>
                 <Text style={styles.inputLabel}>Senha:</Text>
                 <TextInput value = {password} onChangeText = {e => {setPassword(e)}} style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}

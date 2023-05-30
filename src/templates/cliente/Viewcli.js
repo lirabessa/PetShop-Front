@@ -126,7 +126,7 @@ const VeiwCli = ({route, navigation}) => {
         {nomeDep: "Triporodonte", raca: "dinossauro", editar: false} 
     ]
     const [pets, setPets] = React.useState(petsMock)
-    const mockFoto = "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/a983ociqyrdchffwvfbt"
+    const mockFoto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232'
 
     const [petNome, setPetNome] = React.useState("")
     const [petRaca, setPetRaca] = React.useState("")
@@ -137,8 +137,8 @@ const VeiwCli = ({route, navigation}) => {
     }, [id])
 
     const buscarCli = async () => {
-        // const url = 'http://pet-shop-back.vercel.app/'
-        const url = 'http://192.168.0.138:3333/'
+        const url = 'http://pet-shop-back.vercel.app/'
+        // const url = 'http://192.168.0.138:3333/'
         axios.get(url+'cliente/'+id,{
             maxRedirects: 0,
             validateStatus: function (status) {
@@ -150,9 +150,10 @@ const VeiwCli = ({route, navigation}) => {
           setTelefone(cliente.telefone)
           setEmail(cliente.email)
           setCpf(cliente.cpf)
-          setRua(cliente.endereco.rua)
-          setBairro(cliente.endereco.bairro)
-          setCidade(cliente.endereco.cidade)
+          setImage(cliente.foto?.src || mockFoto)
+          setRua(cliente.endereco?.rua)
+          setBairro(cliente.endereco?.bairro)
+          setCidade(cliente.endereco?.cidade)
           setPets(cliente.dependentes)
         })
           .catch(error => {
@@ -205,34 +206,35 @@ const VeiwCli = ({route, navigation}) => {
       
           if (!result.canceled) {
             setImage(result.uri);
-            salvaImagem()
+            salvaImagem(result.uri)
           }
     }
 
-    const salvaImagem = () => {
-        let filename = image.split('/').pop();
+    const salvaImagem = async (imagem) => {
+        let filename = imagem.split('/').pop();
         let match = /\.(\w+)$/.exec(filename);
         let type = match ? `image/${match[1]}` : `image`;
 
         let formData = new FormData();
-        formData.append('File', { uri: image, name: filename, type });
+        formData.append('File', { uri: imagem, name: filename, type });
         formData.append('tipo', 'cliente')
         formData.append('id', id)
         const fotos = {
             File:image,tipo:'cliente', id
         }
-        // const url = 'http://pet-shop-back.vercel.app'
-        const url = 'http://192.168.0.138:3333' //RAFA
+        const token = await SecureStore.getItemAsync("token")
+        const url = 'https://pet-shop-back.vercel.app'
+        // const url = 'http://192.168.0.138:3333' //RAFA
         //const url = 'http://10.0.2.2:3333'
-        axios.post (url+'/uploads', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }}
+        axios.post (url+'/drive', formData, {
+            headers: { 'Content-Type': 'multipart/form-data', authorization: token }}
         ).then(response => {
             console.log('Then', response.data);
             //setModalVisible(true)
             
         })
         .catch(error => {
-            console.log('catch 333', error);
+            console.log('catch', error);
         })
     }
 
@@ -269,7 +271,6 @@ const VeiwCli = ({route, navigation}) => {
         const pet = pets[index]
         const url = 'http://192.168.0.138:3333/'
         const token = await SecureStore.getItemAsync("token")
-        console.log(token)
         axios.delete(url+'pet/'+pet._id, {
             maxRedirects: 0,
             validateStatus: function (status) {
@@ -329,7 +330,7 @@ const VeiwCli = ({route, navigation}) => {
                                     <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
                                     value = {campo.state} 
                                     onChangeText={campo.onchange}/>
-                                    ):(<Text style = {{margin: 5}}>{campo.label}: {campo.state}</Text>)}
+                                    ):(<Text style = {style.inputWithoutEdit}>{campo.label}: {campo.state}</Text>)}
                                     {editUserInfo[campo.campo] ? (
                                         <Text
                                             style = {{margin: 5}} 
@@ -399,7 +400,7 @@ const VeiwCli = ({route, navigation}) => {
                                             pets[index].nomeDep = e
                                             setPets([...pets])
                                         }}/>
-                                        ):(<Text style = {{margin: 5}}>Nome: {pet.nomeDep}</Text>)}
+                                        ):(<Text style = {style.inputWithoutEdit}>Nome: {pet.nomeDep}</Text>)}
                                     
                             </View>
                             <View style={{
@@ -414,7 +415,7 @@ const VeiwCli = ({route, navigation}) => {
                                         onChangeText={(e) => {
                                             pets[index].raca = e
                                             setPets([...pets])}}/>
-                                    ):(<Text style = {{margin: 5}}>Raça: {pet.raca}</Text>)}
+                                    ):(<Text style = {style.inputWithoutEdit}>Raça: {pet.raca}</Text>)}
                                     
                             </View>
                         </View>            
@@ -448,6 +449,10 @@ const style = StyleSheet.create ({
     buttonOpen: {
         backgroundColor: 'pink',
     },
+    inputWithoutEdit: {
+        margin: 5, 
+        marginTop: 9
+    }
 })
 
 export default VeiwCli

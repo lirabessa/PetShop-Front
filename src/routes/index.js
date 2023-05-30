@@ -20,8 +20,8 @@ export default function Routes(){
     return(     
             <NavigationContainer>
                 <Stack.Navigator  initialRouteName="Login">
-                    <Stack.Screen name = "TelaHome" component= {TelaHome}/>
-                    <Stack.Screen name = "CadastroFunc"component= {CadastroFunc}/>
+                    <Stack.Screen name="TelaHome" component={TelaHome}/>
+                    <Stack.Screen name="CadastroFunc"component={CadastroFunc}/>
                     <Stack.Screen name="CadastroCli"component={CadastroCli} />
                     <Stack.Screen name="Login" component= {Login}/>
                     <Stack.Screen name="BemVindoFunc"component={BemVindoFunc} />
