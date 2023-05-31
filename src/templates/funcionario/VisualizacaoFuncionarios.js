@@ -20,7 +20,7 @@ const VisualizarFunc = ({ navigation }) => {
         return status >= 200 && status < 303;
       }
     }).then(response => {
-      console.log('esse then', response.data.readFuncionarios);
+      console.log('esse then', response.data.readFuncionarios[0]);
       setFuncionarios(response.data.readFuncionarios)
       console.log('aqui foi amem');
     })

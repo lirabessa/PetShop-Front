@@ -112,7 +112,7 @@ const CadastroFunc = ({route, navigation}) => {
         axiosFunc(url, varJson).then(async response => {
             const id = response.data.criarFuncionario?._id || response.data.updateFuncionario?._id
             console.log('Then', response.data);
-            const cadFotos = await cadastrarFoto(id)
+            await cadastrarFoto(id)
         })
         .catch( error => {
             

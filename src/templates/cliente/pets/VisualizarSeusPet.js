@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
 
 const VisualizarSeusPet = ({navigation}) =>{
-
+  const mockFoto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232'
 //********************************AXIOS************* */
 
 const [pets, setPets] = useState([])
@@ -15,7 +15,6 @@ const [pets, setPets] = useState([])
 
   const buscarPet = async () => {
     const token = await SecureStore.getItemAsync("token")
-    console.log(token)
     axios.get('https://pet-shop-back.vercel.app/pets', {
       maxRedirects: 0,
       validateStatus: function (status) {
@@ -63,7 +62,7 @@ const [pets, setPets] = useState([])
         pets.map((pets) => (
             <View style={styles.item} key={pets._id}>
         
-                <View style={styles.square}></View> 
+        <Image source={{uri:pets.foto?.src || mockFoto}} style={{width: 50, height: 50, borderRadius: 5, marginRight: 15,}}/> 
                 <View style={{ flex: 1}}>
                     <Text>{pets.nomeDep}</Text>
                 </View>

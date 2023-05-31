@@ -51,7 +51,6 @@ const CadastroCli= ({navigation}) => {
   
     const cadastrarFoto = async (id) => {
         let filename = image.split('/').pop();
-
         let match = /\.(\w+)$/.exec(filename);
         let type = match ? `image/${match[1]}` : `image`;
 
@@ -60,10 +59,6 @@ const CadastroCli= ({navigation}) => {
         formData.append('tipo', 'cliente')
         formData.append('id', id)
     
-
-        const fotos = {
-            File:image,tipo:'cliente', id
-        }
         const token = await SecureStore.getItemAsync("token")
     
         //const url = 'http://192.168.0.138:3333' RAFA
