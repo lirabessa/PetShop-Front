@@ -14,6 +14,7 @@ import VisulizarProdFunc from '../templates/produto/VisualizarProdutosFunc'
 import VisualizarSeusPet from '../templates/cliente/pets/VisualizarSeusPet'
 import CadastroPets from '../templates/cliente/pets/CadastroPets';
 import VisualizarSeusProd from '../templates/cliente/VisualizarSeusProd'
+import FichaMedica from '../templates/cliente/pets/FichaMedica';
 
 export default function Routes(){
     const Stack = createNativeStackNavigator();
@@ -34,6 +35,8 @@ export default function Routes(){
                     <Stack.Screen name="VisualizarSeusPet" component={VisualizarSeusPet}/>
                     <Stack.Screen name="CadastroPets" component={CadastroPets}/>
                     <Stack.Screen name="VisualizarSeusProd" component={VisualizarSeusProd}/>
+                    <Stack.Screen name="FichaMedica" component={FichaMedica}/>
+                
                 </Stack.Navigator>
             </NavigationContainer> 
     )
