@@ -25,13 +25,13 @@ const VeiwCli = ({route, navigation}) => {
       }); 
 
 
-    const [nome, setNome] = useState("Kaenu");
-    const [cpf, setCpf] = useState('CPF');
-    const [telefone, setTelefone] = useState("12 99887766");
-    const [email, setEmail] = useState("kaenu@hives");
-    const [rua, setRua] = useState("Matrixx");
-    const [bairro, setBairro] = useState("Caverna");
-    const [cidade, setCidade] = useState('Cidade')
+    const [nome, setNome] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [email, setEmail] = useState("");
+    const [rua, setRua] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [cidade, setCidade] = useState("")
 
     const campos = [
         {
@@ -120,13 +120,10 @@ const VeiwCli = ({route, navigation}) => {
         }
     ]
 
-    const petsMock = [
-        {nomeDep: "Rex", raca: "dinossauro", editar: false},
-        {nomeDep: "Raptor", raca: "dinossauro", editar: false},
-        {nomeDep: "Triporodonte", raca: "dinossauro", editar: false} 
-    ]
+    const petsMock = []
     const [pets, setPets] = React.useState(petsMock)
     const mockFoto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232'
+    const mockPetFoto = 'https://i.pinimg.com/originals/a0/8b/a5/a08ba59656e06a42390959bc59e14d0d.jpg'
 
     const [petNome, setPetNome] = React.useState("")
     const [petRaca, setPetRaca] = React.useState("")
@@ -176,8 +173,8 @@ const VeiwCli = ({route, navigation}) => {
             nomeDep: pets[index].nomeDep,
             raca: pets[index].raca
         }
-        const baseUrl = 'http://192.168.0.138:3333/pet'
-        const funcaoPet = pets[index]._id ? axios.put : axios.post
+        let baseUrl = 'http://192.168.0.138:3333/pet'
+        let funcaoPet = pets[index]._id ? axios.put : axios.post
         const token = await SecureStore.getItemAsync("token")
         funcaoPet(baseUrl, data,{
             maxRedirects: 0,
@@ -186,10 +183,10 @@ const VeiwCli = ({route, navigation}) => {
             }, 
             headers: { authorization: token }
          }).then(res=>{
-            setPetNome('')
-            setPetRaca('')
-            pets[index].editar = false
-            setPets(pets)
+             setPetNome('')
+             setPetRaca('')
+             pets[index].editar = false
+            setPets(pets.map((p, i)=> i===index ? {...pets[index]} : {...p}))
         }).catch(erro => {
             console.error(erro)
         })
@@ -252,8 +249,8 @@ const VeiwCli = ({route, navigation}) => {
             email, 
             cpf
         }
-        // const url = 'http://pet-shop-back.vercel.app/'
-        const url = 'http://192.168.0.138:3333/'
+        const url = 'http://pet-shop-back.vercel.app/'
+        // const url = 'http://192.168.0.138:3333/'
         axios.put(url+'cliente/'+id, data, {
             maxRedirects: 0,
             validateStatus: function (status) {
@@ -269,9 +266,10 @@ const VeiwCli = ({route, navigation}) => {
     const removePet = async (index) => {
         
         const pet = pets[index]
-        const url = 'http://192.168.0.138:3333/'
+        const url = 'https://pet-shop-back.vercel.app/'
+        // const url = 'http://192.168.0.138:3333/'
         const token = await SecureStore.getItemAsync("token")
-        axios.delete(url+'pet/'+pet._id, {
+        axios.delete(url+'pet/'+pet._id+'/'+id, {
             maxRedirects: 0,
             validateStatus: function (status) {
               return status >= 200 && status < 303;
@@ -283,6 +281,52 @@ const VeiwCli = ({route, navigation}) => {
             console.log(err)
         })
         
+    }
+
+    const alteraImagemPet = async (index) => {
+        const idPet = pets[index]._id
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+      
+          if (!result.canceled) {
+            const foto = result.uri;
+            setPets(pets.map((p, i)=> i===index ? {...pets[index], foto} : {...p}))
+            salvaImagemPet(foto, idPet)
+          }
+
+    }
+
+    const salvaImagemPet = async (imagem, petId) => {
+        let filename = imagem.split('/').pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('File', { uri: imagem, name: filename, type });
+        formData.append('tipo', 'pet')
+        formData.append('id', petId)
+        formData.append('idCliente', id)
+        const fotos = {
+            File:imagem,tipo:'pet', id: petId, idCliente: id
+        }
+        const token = await SecureStore.getItemAsync("token")
+        // const url = 'https://pet-shop-back.vercel.app'
+        const url = 'http://192.168.0.138:3333' //RAFA
+        //const url = 'http://10.0.2.2:3333'
+        axios.post (url+'/drive', formData, {
+            headers: { 'Content-Type': 'multipart/form-data', authorization: token }}
+        ).then(response => {
+            console.log('Then foto pet', response.data);
+            //setModalVisible(true)
+            
+        })
+        .catch(error => {
+            console.log('catch', error);
+        })
     }
 
 
@@ -366,59 +410,78 @@ const VeiwCli = ({route, navigation}) => {
                         <Text style={{width: "100%", textAlign: "center", fontSize: 25}}>Pets</Text> 
                         </View>   
                         {pets?.map((pet, index) => (
-                            <View key={index}>
-                            <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20}}>
-                                <Text>{pet.nomeDep}</Text>
-                                <View style={{flexDirection:"row"}}>
-                                    <Icon.Button 
-                                        name={pet.editar ? "check" : "edit"}
-                                        size={20} 
-                                        color="black"
-                                        backgroundColor="rgba(255,255,255,0)"
-                                        onPress={()=> pet.editar ? concluirAlteracao(index) : editarPet(index)}>
-
-                                    </Icon.Button>
-                                    <Icon.Button 
-                                        name="trash-o" 
-                                        size={20}
-                                        color="black"
-                                        backgroundColor="rgba(255,255,255,0)"
-                                        onPress={()=>removePet(index)}>    
-                                    </Icon.Button>
+                            <View key={index}>                                
+                                <View style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-around",
+                                    marginTop: 20,
+                                }}>
+                                    <Image 
+                                    source={{uri:pet.foto?.src || pet.foto || mockPetFoto}}
+                                    style = {{width:100, height:100}}/>
+                                    <View style={{flex: .85}}>
+                                        <Text style = {{margin: 5, flex: .9}}> {pet.nomeDep}</Text>
+                                        <TouchableOpacity onPress={() => alteraImagemPet(index)}>
+                                            <Text>Adicionar Imagem</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
-                            <View style={{
-                                    ...style.input, 
-                                    width: '90%', 
-                                    flexDirection: "row", 
-                                    justifyContent: "space-between", 
-                                    padding: 0}}>
-                                    {pet.editar ? (
-                                        <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
-                                        value = {pet.nomeDep} 
-                                        onChangeText={(e) => {
-                                            pets[index].nomeDep = e
-                                            setPets([...pets])
-                                        }}/>
-                                        ):(<Text style = {style.inputWithoutEdit}>Nome: {pet.nomeDep}</Text>)}
+                                <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, marginTop: 20}}>
                                     
-                            </View>
-                            <View style={{
-                                    ...style.input, 
-                                    width: '90%', 
-                                    flexDirection: "row", 
-                                    justifyContent: "space-between", 
-                                    padding: 0}}>
-                                    {pet.editar ? (
-                                        <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}}
-                                        value = {pet.raca}
-                                        onChangeText={(e) => {
-                                            pets[index].raca = e
-                                            setPets([...pets])}}/>
-                                    ):(<Text style = {style.inputWithoutEdit}>Raça: {pet.raca}</Text>)}
-                                    
-                            </View>
-                        </View>            
+                                    <View style={{flexDirection:"row"}}>
+                                        <Icon.Button 
+                                            name={pet.editar ? "check" : "edit"}
+                                            size={20} 
+                                            color="black"
+                                            backgroundColor="rgba(255,255,255,0)"
+                                            onPress={()=> pet.editar ? concluirAlteracao(index) : editarPet(index)}>
+
+                                        </Icon.Button>
+                                        <Icon.Button 
+                                            name="trash-o" 
+                                            size={20}
+                                            color="black"
+                                            backgroundColor="rgba(255,255,255,0)"
+                                            onPress={()=>removePet(index)}>    
+                                        </Icon.Button>
+                                    </View>
+                                </View>
+                                <View style={{
+                                        ...style.input, 
+                                        width: '90%', 
+                                        flexDirection: "row", 
+                                        justifyContent: "space-between", 
+                                        padding: 0}}>
+                                        {pet.editar ? (
+                                            <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}} 
+                                            value = {pet.nomeDep} 
+                                            onChangeText={(e) => {
+                                                pets[index].nomeDep = e
+                                                setPets([...pets])
+                                            }}/>
+                                            ):(<Text style = {style.inputWithoutEdit}>Nome: {pet.nomeDep}</Text>)}
+                                        
+                                </View>
+                                <View style={{
+                                        ...style.input, 
+                                        width: '90%', 
+                                        flexDirection: "row", 
+                                        justifyContent: "space-between", 
+                                        padding: 0}}>
+                                        {pet.editar ? (
+                                            <TextInput style = {{margin: 5, minWidth: 300, backgroundColor: "#fff"}}
+                                            value = {pet.raca}
+                                            onChangeText={(e) => {
+                                                pets[index].raca = e
+                                                setPets([...pets])}}/>
+                                        ):(<Text style = {style.inputWithoutEdit}>Raça: {pet.raca}</Text>)}
+                                        
+                                </View>
+                                
+                            </View>            
                         ))}
                         <TouchableOpacity 
                             onPress={adicionaPet}

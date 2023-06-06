@@ -21,7 +21,6 @@ const VisualizarCli = ({ navigation }) => {
         return status >= 200 && status < 303;
       }
     }).then(response => {
-      console.log('esse then', response.data.readCliente[0]);
       setClientes(response.data.readCliente)
     //   console.log('aqui foi amem');
     })

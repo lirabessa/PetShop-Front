@@ -80,7 +80,7 @@ const CadastroCli= ({navigation}) => {
         var varJson = {
            
             nomeCli: nomeCli,
-            endereço:{
+            endereco:{
                 rua: rua,
                 bairro: bairro,
                 cidade:cidade,
@@ -88,19 +88,18 @@ const CadastroCli= ({navigation}) => {
                 pais:pais,
                 cep: cep,
             },
-                telefone:telefone,
-                email: email,
-                cpf: cpf,
-                password:password
+            telefone:telefone,
+            email: email,
+            cpf: cpf,
+            password:password
         }
-        console.log('Foi', varJson);
         const url = 'http://pet-shop-back.vercel.app'
         axios.post(url+'/cliente', varJson
  
         ).then(async response => {
             const id = response.data.criarCliente._id
             console.log('Then', response.data);
-            await cadastrarFoto(id)
+            image && await cadastrarFoto(id)
             setModalVisible(true)
         })
         .catch(error => {
