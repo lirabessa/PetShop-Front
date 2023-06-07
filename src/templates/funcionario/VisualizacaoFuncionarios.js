@@ -14,15 +14,15 @@ const VisualizarFunc = ({ navigation }) => {
   
 
   const buscarFunc = async () => {
-    axios.get('https://pet-shop-back.vercel.app/funcionarios', {
+    const url = 'https://pet-shop-back.vercel.app/funcionarios'
+    // const url = 'http://192.168.0.138:3333/funcionarios'
+    axios.get(url, {
       maxRedirects: 0,
       validateStatus: function (status) {
         return status >= 200 && status < 303;
       }
     }).then(response => {
-      console.log('esse then', response.data.readFuncionarios[0]);
       setFuncionarios(response.data.readFuncionarios)
-      console.log('aqui foi amem');
     })
       .catch(error => {
         console.log('catch', error);

@@ -12,6 +12,11 @@ const Login = ({navigation}) => {
         setPassword('teste')
     }
 
+    handleDoubleEmail = () => {
+        setEmail('rodrigocli@teste')
+        setPassword('oi')
+    }
+
     const realizarLogin = () =>{
     
         var varJson = {
@@ -38,7 +43,7 @@ const Login = ({navigation}) => {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
                 <Pressable  onLongPress={handleDoubleTap}><Text style= {styles.titulo}>Bem Vindo ao PetShop</Text></Pressable>
-                <Text style={styles.inputLabel}>Email/CPF:</Text>
+                <Pressable  onLongPress={handleDoubleEmail}><Text style={styles.inputLabel}>Email/CPF:</Text></Pressable>
                 <TextInput value= {email} onChangeText = {e => {setEmail(e)}} style={styles.input} placeholder = "Email/CFP" type="email"/>
                 <Text style={styles.inputLabel}>Senha:</Text>
                 <TextInput value = {password} onChangeText = {e => {setPassword(e)}} style={styles.input} placeholder = "Senha" secureTextEntry={true}/>

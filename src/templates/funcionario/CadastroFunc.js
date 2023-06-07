@@ -72,7 +72,7 @@ const CadastroFunc = ({route, navigation}) => {
         axios.post (url+'/drive', formData, {
             headers: { 'Content-Type': 'multipart/form-data', authorization: token }}
         ).then(response => {
-            console.log('Then', response.data);
+            console.log('Then cadastro func salva foto', response.data);
             setModalVisible(true)
             
         })
@@ -90,7 +90,7 @@ const CadastroFunc = ({route, navigation}) => {
         var varJson = {
            
             nomeFunc: nomeFunc,
-            endereço:{
+            endereco:{
                 rua: rua,
                 bairro: bairro,
                 cidade:cidade,
@@ -108,10 +108,11 @@ const CadastroFunc = ({route, navigation}) => {
         if (editar){
             url += '/'+id
             axiosFunc = axios.put
+            varJson = {...varJson, ...varJson.endereco }
         }
         axiosFunc(url, varJson).then(async response => {
             const id = response.data.criarFuncionario?._id || response.data.updateFuncionario?._id
-            console.log('Then', response.data);
+            console.log('Then cadastro func cadastrar funcionario', response.data);
             await cadastrarFoto(id)
         })
         .catch( error => {
@@ -126,23 +127,22 @@ const CadastroFunc = ({route, navigation}) => {
 const getFunc = (id) => {
     console.log('getFunc', id)
     const url = 'https://pet-shop-back.vercel.app/funcionario/'
-    // const url = 'http://localhost:3333/funcionario/'
+    // const url = 'http://192.168.0.138:3333/funcionario/'
     axios.get(url+id).then(response => {
         console.log('Then', response.data);
     }).catch(error => {
         if (error.response.data){
             const func = error.response.data.readFuncionario
-            console.log('Error', func)
             setNomeFunc(func.nomeFunc)
             setCpf(func.cpf)
             setEmail(func.email)
             setTelefone(func.telefone)
-            setRua(func['endereço']?.rua)
-            setBairro(func['endereço']?.bairro)
-            setCidade(func['endereço']?.cidade)
-            setEstado(func['endereço']?.estado)
-            setPais(func['endereço']?.pais)
-            setCep(func['endereço']?.cep)
+            setRua(func['endereco']?.rua)
+            setBairro(func['endereco']?.bairro)
+            setCidade(func['endereco']?.cidade)
+            setEstado(func['endereco']?.estado)
+            setPais(func['endereco']?.pais)
+            setCep(func['endereco']?.cep)
             setPassword(func.password)
             setEditar(true)
             setImage(func.foto?.src || mockFoto)

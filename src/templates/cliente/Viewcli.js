@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import { View, Pressable, Modal, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
@@ -13,6 +13,7 @@ Logs.enableExpoCliLogging()
 const VeiwCli = ({route, navigation}) => {
 
     const {id} = route.params
+    const scrollViewRef = useRef();
 
     const [editUserInfo, setEditUserInfo] = useState({
         nome: false,
@@ -173,7 +174,8 @@ const VeiwCli = ({route, navigation}) => {
             nomeDep: pets[index].nomeDep,
             raca: pets[index].raca
         }
-        let baseUrl = 'http://192.168.0.138:3333/pet'
+        // let baseUrl = 'http://192.168.0.138:3333/pet'
+        const baseUrl = 'https://pet-shop-back.vercel.app/pet'
         let funcaoPet = pets[index]._id ? axios.put : axios.post
         const token = await SecureStore.getItemAsync("token")
         funcaoPet(baseUrl, data,{
@@ -183,10 +185,11 @@ const VeiwCli = ({route, navigation}) => {
             }, 
             headers: { authorization: token }
          }).then(res=>{
+            petSalvo = res.data.cliente.dependentes.find(p => p.nomeDep == pets[index].nomeDep)
              setPetNome('')
              setPetRaca('')
              pets[index].editar = false
-            setPets(pets.map((p, i)=> i===index ? {...pets[index]} : {...p}))
+            setPets(pets.map((p, i)=> i===index ? {...petSalvo} : {...p}))
         }).catch(erro => {
             console.error(erro)
         })
@@ -237,6 +240,7 @@ const VeiwCli = ({route, navigation}) => {
 
     const adicionaPet = () => {
         setPets(pets.concat({nome: "", raca: "", editar: true}))
+        scrollViewRef.current.scrollToEnd({ animated: true })
     }
 
     const salvar = () => {
@@ -314,8 +318,8 @@ const VeiwCli = ({route, navigation}) => {
             File:imagem,tipo:'pet', id: petId, idCliente: id
         }
         const token = await SecureStore.getItemAsync("token")
-        // const url = 'https://pet-shop-back.vercel.app'
-        const url = 'http://192.168.0.138:3333' //RAFA
+        const url = 'https://pet-shop-back.vercel.app'
+        // const url = 'http://192.168.0.138:3333' //RAFA
         //const url = 'http://10.0.2.2:3333'
         axios.post (url+'/drive', formData, {
             headers: { 'Content-Type': 'multipart/form-data', authorization: token }}
@@ -325,14 +329,14 @@ const VeiwCli = ({route, navigation}) => {
             
         })
         .catch(error => {
-            console.log('catch', error);
+            console.log('catch salva imagem', error);
         })
     }
 
 
     return(
         <>
-        <ScrollView>
+        <ScrollView ref={scrollViewRef}>
             <KeyboardAvoidingView>
                 <TouchableWithoutFeedback>
                     <KeyboardAvoidingView>
@@ -410,25 +414,8 @@ const VeiwCli = ({route, navigation}) => {
                         <Text style={{width: "100%", textAlign: "center", fontSize: 25}}>Pets</Text> 
                         </View>   
                         {pets?.map((pet, index) => (
-                            <View key={index}>                                
-                                <View style={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-around",
-                                    marginTop: 20,
-                                }}>
-                                    <Image 
-                                    source={{uri:pet.foto?.src || pet.foto || mockPetFoto}}
-                                    style = {{width:100, height:100}}/>
-                                    <View style={{flex: .85}}>
-                                        <Text style = {{margin: 5, flex: .9}}> {pet.nomeDep}</Text>
-                                        <TouchableOpacity onPress={() => alteraImagemPet(index)}>
-                                            <Text>Adicionar Imagem</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
+                            <View key={index} style={{borderBottomWidth: 1, paddingBottom:10, marginHorizontal:10}}>                                
+                                
                                 <View style = {{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, marginTop: 20}}>
                                     
                                     <View style={{flexDirection:"row"}}>
@@ -479,6 +466,28 @@ const VeiwCli = ({route, navigation}) => {
                                                 setPets([...pets])}}/>
                                         ):(<Text style = {style.inputWithoutEdit}>Raça: {pet.raca}</Text>)}
                                         
+                                </View>
+                                <View style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-around",
+                                    marginTop: 20,
+                                }}>
+                                    <Image 
+                                    source={{uri:pet.foto?.src || pet.foto || mockPetFoto}}
+                                    style = {{width:100, height:100}}/>
+                                    <View style={{flex: .85}}>
+                                        
+                                        <TouchableOpacity  onPress={() => alteraImagemPet(index)} disabled={!pet._id}>
+                                            <Text>Adicionar Imagem</Text>
+                                        </TouchableOpacity>
+                                        {!pet._id && <Text style={{fontSize: 10, color: 'red'}}>Para adicionar imagem, é necessário salvar nome e raça do pet.</Text>}
+                                        <TouchableOpacity style={{marginTop: 15}} >
+                                            <Text>Ficha médica</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                                 
                             </View>            

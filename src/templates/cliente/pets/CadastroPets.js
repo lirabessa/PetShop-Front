@@ -70,12 +70,13 @@ const CadastroPets = ({navigation}) =>{
     
         const token = await SecureStore.getItemAsync("token")
 
-        //const url = 'http://192.168.0.138:3333' RAFA
+        // const url = 'http://192.168.0.138:3333/drive' //RAFA
         // const url = 'http://10.0.2.2:3333'
-        axios.post ('https://pet-shop-back.vercel.app/drive', formData, {
+        const url = 'https://pet-shop-back.vercel.app/drive'
+        axios.post (url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization: token
+                authorization: token
               }}
         ).then(response => {
             console.log('Then', response.data);
@@ -99,10 +100,10 @@ const CadastroPets = ({navigation}) =>{
         }
         console.log('Foi', varJson);
         axios.post('https://pet-shop-back.vercel.app/pet', varJson,
-        {headers: { Authorization: token }}
+        {headers: { authorization: token }}
         ).then(async response => {
-        const id = response.data._id
-        console.log('Then', response.data);
+        const id = response.data.cliente.dependentes.find(p => p.nomeDep == nomeDep)._id
+        console.log('Then cadastraPet', response.data.cliente.dependentes);
         await cadastrarFoto(id)
     })
     .catch(error => {

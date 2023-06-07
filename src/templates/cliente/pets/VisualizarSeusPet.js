@@ -6,7 +6,8 @@ import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
 
 const VisualizarSeusPet = ({navigation}) =>{
-  const mockFoto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232'
+  // const mockFoto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png?20220226140232'
+  const mockFoto = 'https://i.pinimg.com/originals/a0/8b/a5/a08ba59656e06a42390959bc59e14d0d.jpg'
 //********************************AXIOS************* */
 
 const [pets, setPets] = useState([])
@@ -15,13 +16,15 @@ const [pets, setPets] = useState([])
 
   const buscarPet = async () => {
     const token = await SecureStore.getItemAsync("token")
-    axios.get('https://pet-shop-back.vercel.app/pets', {
+    const url = 'https://pet-shop-back.vercel.app/pets'
+    // let url = 'http://192.168.0.138:3333/pets'
+    axios.get(url, {
       maxRedirects: 0,
       validateStatus: function (status) {
         return status >= 200 && status < 303;
-      }, headers: { Authorization: token } 
+      }, headers: { authorization: token } 
     }).then(response => {
-    console.log('esse then');
+    console.log('esse then busca pet', response.data);
       setPets(response.data)
     })
       .catch(error => {
@@ -36,8 +39,10 @@ const [pets, setPets] = useState([])
 
   const DeletarSeusPets = async (id) =>{
     const token = await SecureStore.getItemAsync("token")
-    axios.delete(`https://pet-shop-back.vercel.app/pet/${id}`,
-    {headers: { Authorization: token }} )
+    // let url = 'http://192.168.0.138:3333/pet/'
+    const url = 'https://pet-shop-back.vercel.app/pet/'
+    axios.delete(`${url}${id}`,
+    {headers: { authorization: token }} )
     .then(response => {
       buscarPet();
       console.log(response.data);
