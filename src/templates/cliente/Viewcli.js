@@ -484,7 +484,7 @@ const VeiwCli = ({route, navigation}) => {
                                             <Text>Adicionar Imagem</Text>
                                         </TouchableOpacity>
                                         {!pet._id && <Text style={{fontSize: 10, color: 'red'}}>Para adicionar imagem, é necessário salvar nome e raça do pet.</Text>}
-                                        <TouchableOpacity style={{marginTop: 15}} >
+                                        <TouchableOpacity style={{marginTop: 15}} onPress={() => navigation.navigate('FichaMedica', {id: pet._id, idCli: id})} >
                                             <Text>Ficha médica</Text>
                                         </TouchableOpacity>
                                     </View>

@@ -99,7 +99,9 @@ const CadastroPets = ({navigation}) =>{
             raca: raca
         }
         console.log('Foi', varJson);
-        axios.post('https://pet-shop-back.vercel.app/pet', varJson,
+        const url = 'https://pet-shop-back.vercel.app/pet'
+        // const url = 'http://192.168.0.138:3333/pet' //RAFA
+        axios.post(url, varJson,
         {headers: { authorization: token }}
         ).then(async response => {
         const id = response.data.cliente.dependentes.find(p => p.nomeDep == nomeDep)._id

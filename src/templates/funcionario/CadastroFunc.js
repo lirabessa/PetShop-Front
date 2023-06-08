@@ -163,7 +163,7 @@ const getFunc = (id) => {
         <>
         <ScrollView>
             <View style = {styles.barra}/>
-                <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
+                <KeyboardAvoidingView >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
                             <Text style= {[styles.titulo, {marginBottom: 30}]}>{editar ? 'Editar' : 'Cadastro de'} Funcionário</Text>
@@ -195,25 +195,7 @@ const getFunc = (id) => {
                             <TextInput value={password} onChangeText={ e => {setPassword(e)} } style={styles.input} placeholder = "Senha" secureTextEntry={true}/>
                         </KeyboardAvoidingView> 
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView> 
-            </ScrollView>
-                <KeyboardAvoidingView>
-
-                    <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Text onPress={()=>navigation.navigate("Login")}style={styles.modalText}>Funcionário Cadastrado</Text>
-                                <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => setModalVisible(!modalVisible)}>
-                                <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </Modal>
-                   
-                    <KeyboardAvoidingView style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
-                        <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
+                    <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
                         
                         <Pressable
                             style={[styles.button, styles.buttonOpen]}
@@ -221,9 +203,21 @@ const getFunc = (id) => {
                              >
                             <Text onPress={ () => cadastrarFuncionario() } style={styles.textStyle}>ENVIAR</Text>
                         </Pressable>
-                    </KeyboardAvoidingView>
-                    
-            </KeyboardAvoidingView>   
+                    </View>
+                </KeyboardAvoidingView> 
+            </ScrollView>
+            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible);}}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Funcionário {id? 'Editado': 'Cadastrado'}</Text>
+                        <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text onPress={()=>navigation.navigate("VisualizarFunc")} style={styles.textStyle}>Voltar</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         
         </>
     )

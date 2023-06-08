@@ -51,7 +51,7 @@ const CadastroProd = ({navigation}) =>{
                         <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}>
-                        <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
+                        <Text onPress={()=>navigation.navigate("VisulizarProdFunc")} style={styles.textStyle}>Voltar</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -60,7 +60,7 @@ const CadastroProd = ({navigation}) =>{
             <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:40}}>
               
                 <Pressable
-                    style={[styles.button, styles.buttonOpen]}
+                    style={[styles.button, styles.buttonOpen, {flex: .85}]}
                         >
                     <Text onPress={()=> cadastroProd()} style={styles.textStyle}>Cadastrar</Text>
                 </Pressable>

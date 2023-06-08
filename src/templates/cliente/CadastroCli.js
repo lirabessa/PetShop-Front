@@ -66,7 +66,7 @@ const CadastroCli= ({navigation}) => {
         axios.post ('https://pet-shop-back.vercel.app/drive', formData, {
             headers: { 'Content-Type': 'multipart/form-data' ,  Authorization: token }}
         ).then(response => {
-            console.log('Then', response.data);
+            console.log('Then cadastrar foto', response.data);
         })
         .catch(error => {
             console.log('catch 333', error);
@@ -98,7 +98,7 @@ const CadastroCli= ({navigation}) => {
  
         ).then(async response => {
             const id = response.data.criarCliente._id
-            console.log('Then', response.data);
+            console.log('Then cadastrar ususario', response.data);
             image && await cadastrarFoto(id)
             setModalVisible(true)
         })
@@ -121,7 +121,7 @@ const CadastroCli= ({navigation}) => {
                         <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}>
-                        <Text onPress={()=>navigation.navigate("Login")} style={styles.textStyle}>Voltar</Text>
+                        <Text onPress={()=>navigation.navigate("VisualizarCli")} style={styles.textStyle}>Voltar</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -158,10 +158,7 @@ const CadastroCli= ({navigation}) => {
                                     
             {/* </KeyboardAvoidingView> */}
            
-        </ScrollView>
-
             <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:20}}>
-                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("Login")}>Fazer Login</Text>
                 
                 <TouchableOpacity
                     style={[styles.button, styles.buttonOpen]}
@@ -170,6 +167,8 @@ const CadastroCli= ({navigation}) => {
                     <Text onPress={ () => cadastrarUsuario() } style={styles.textStyle}>ENVIAR</Text>
                 </TouchableOpacity>
             </View>      
+        </ScrollView>
+
 </>
     )
 }
