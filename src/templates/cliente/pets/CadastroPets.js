@@ -2,8 +2,12 @@ import React, {useState} from 'react';
 import { View ,Pressable, Modal, Image, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
+<<<<<<< HEAD:src/templates/cliente/pets/CadastroPets.js
 import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
+=======
+import axios from 'axios';
+>>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/CadastroPets.js
 
 const CadastroPets = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -13,17 +17,23 @@ const CadastroPets = ({navigation}) =>{
     const pickImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [4, 3],
         quality: 1,
       });
   
       console.log(result);
   
+<<<<<<< HEAD:src/templates/cliente/pets/CadastroPets.js
       if (!result.cancelled) {
         setImage(result.assets[0].uri);
       
       }
+=======
+      if (!result.canceled) {
+        setImage(result.uri);
+      } 
+>>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/CadastroPets.js
     };
 
     // const salvaImagem = async (id) => {
@@ -208,7 +218,15 @@ const styles = StyleSheet.create({
       },
     modalText: {
         marginBottom: 15, textAlign: 'center',
-    }
+    },
+    image: {
+        width: 200,
+        height: 200, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        
+        },
 })
 
 export default CadastroPets;

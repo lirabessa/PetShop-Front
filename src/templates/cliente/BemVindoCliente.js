@@ -16,6 +16,14 @@ const BemVindoCli = ({navigation}) => {
 
                             <KeyboardAvoidingView style={{justifyContent: "space-around", alignItems: "center", }}>
                         
+<<<<<<< HEAD:src/templates/cliente/BemVindoCliente.js
+=======
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}>
+                                    <Text onPress={()=>navigation.navigate("BemVindoCli")}  style={styles.textStyle}>Agendar Consultas</Text>
+                                </Pressable>
+
+>>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/BemVindoCliente.js
                                 {/* <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
                                     <Text onPress={()=>navigation.navigate("")}  style={styles.textStyle}>Agendar Consultas</Text>
@@ -23,17 +31,25 @@ const BemVindoCli = ({navigation}) => {
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
+<<<<<<< HEAD:src/templates/cliente/BemVindoCliente.js
                                     <Text onPress={()=>navigation.navigate("VisualizarSeusProd")} style={styles.textStyle}>Visualizar seus Produtos</Text>
+=======
+                                    <Text  onPress={()=>navigation.navigate({name: "BemVindoCli"})}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
+>>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/BemVindoCliente.js
                                 </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
+<<<<<<< HEAD:src/templates/cliente/BemVindoCliente.js
                                     <Text  onPress={()=>navigation.navigate("VisualizarSeusPet")}  style={styles.textStyle}>Visualizar seus Pets ♥</Text>
                                 </Pressable>
 
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}>
                                     <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textStyle}>Adicionar seu novo Pets</Text>
+=======
+                                    <Text onPress={()=>navigation.navigate({name:"CadastroPets"})} style={styles.textStyle}>Cadastrar novos Pets</Text>
+>>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/BemVindoCliente.js
                                 </Pressable>
 
                             </KeyboardAvoidingView>

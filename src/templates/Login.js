@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, Pressable} from 'react-native'
 import axios from "axios";
@@ -38,6 +39,23 @@ const Login = ({navigation}) => {
         });
     }
 
+=======
+import React from 'react';
+import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, TouchableOpacity} from 'react-native'
+import RadioButtons from '../components/RadioButtons';
+
+const Login = ({navigation}) => {
+    const [tipoLogin, setTipoLogin] = React.useState(1)
+
+    const navegarTela = () => {
+        navigation.navigate(tipoLogin === 1 ? "BemVindoFunc" :"BemVindoCli")
+    }
+
+    const setChecked = (id) => {
+        setTipoLogin(id)
+    }
+  
+>>>>>>> dac772321f726616af06060890536f7d94139838
     return(
         <>           
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
@@ -50,9 +68,19 @@ const Login = ({navigation}) => {
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
+<<<<<<< HEAD
             <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
                 <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]} onPress={()=>realizarLogin()}>ENVIAR</Text>
+=======
+            <View style={{ flexDirection: "column", justifyContent:"space-around", marginTop:60}}>
+                <Text style={{marginTop: 10, width: '100%', textAlign: 'center', fontSize: 25}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
+                <View style={{width: '100%', flexDirection: 'row', justifyContent: 'center'}}>
+                    <RadioButtons key={1} item={{label:"Funcionário", id: 1}} setChecked={setChecked} checked={tipoLogin}/>
+                    <RadioButtons key={2} item={{label:"Cliente", id: 2}} setChecked={setChecked} checked={tipoLogin}/>
+                </View>
+                <Text style={[styles.textStyle, styles.button, styles.buttonOpen]} onPress={()=>navegarTela()}>Login</Text>
+>>>>>>> dac772321f726616af06060890536f7d94139838
             </View>   
 
             
@@ -79,11 +107,11 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 15,
-        height:50,
-        width:100,
         textAlign:"center",
         backgroundColor: "pink",
-        height:50, width:100,
+        height:55, 
+        width:'95%',
+        margin: '2.5%',
         borderRadius:10
     },
     inputLabel: {
