@@ -2,12 +2,8 @@ import React, {useState} from 'react';
 import { View ,Pressable, Modal, Image, Text, StyleSheet, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
-<<<<<<< HEAD:src/templates/cliente/pets/CadastroPets.js
 import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
-=======
-import axios from 'axios';
->>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/CadastroPets.js
 
 const CadastroPets = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -24,16 +20,10 @@ const CadastroPets = ({navigation}) =>{
   
       console.log(result);
   
-<<<<<<< HEAD:src/templates/cliente/pets/CadastroPets.js
       if (!result.cancelled) {
         setImage(result.assets[0].uri);
       
       }
-=======
-      if (!result.canceled) {
-        setImage(result.uri);
-      } 
->>>>>>> dac772321f726616af06060890536f7d94139838:src/templates/CadastroPets.js
     };
 
     // const salvaImagem = async (id) => {
