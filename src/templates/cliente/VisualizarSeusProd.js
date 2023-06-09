@@ -11,13 +11,14 @@ const VisualizarSeusProd = ({navigation}) =>{
 
   const buscarProd = async () => {
     const token = await SecureStore.getItemAsync("token")
-    axios.get('https://pet-shop-back.vercel.app/carrinhos', {
+    const url = 'https://pet-shop-back.vercel.app/carrinhos'
+    //const url = 'http://192.168.0.138:3333/carrinhos'
+    axios.get(url, {
       maxRedirects: 0,
       validateStatus: function (status) {
         return status >= 200 && status < 303;
       }, headers: { Authorization: token } 
     }).then(response => {
-      console.log('esse then');
       setProd(response.data)
     })
       .catch(error => {
@@ -64,10 +65,10 @@ const VisualizarSeusProd = ({navigation}) =>{
         
                 <View style={styles.square}></View> 
                 <View style={{ flex: 1}}>
-                    <Text>{prod.nomeProd}</Text>
+                    <Text>{prod.idProd.nomeProd}</Text>
                 </View>
                 <View style={{ flex: 1}}>
-                    <Text>{prod.preco}</Text>
+                    <Text>{prod.idProd.preco}</Text>
                 </View>
 
                 <Icon.Button name="trash-o" 

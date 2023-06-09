@@ -50,9 +50,9 @@ const Login = ({navigation}) => {
                 {/* <Text style= {{paddingLeft: 11}}>Esqueceu a Senha?</Text> */}
             </View> 
             
-            <View style={{ flexDirection: "row", justifyContent:"space-around", marginTop:60}}>
-                <Text style={{marginTop: 10}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
+            <View style={{ flexDirection: "column", justifyContent:"space-around", marginTop:60}}>
                 <Text style={[styles.textStyle, styles.button, styles.buttonOpen]} onPress={()=>realizarLogin()}>ENVIAR</Text>
+                <Text style={{marginTop: 10, textAlign: 'center'}} onPress={()=>navigation.navigate("CadastroCli")}>Criar conta</Text>
             </View>   
 
             

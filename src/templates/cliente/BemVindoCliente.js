@@ -36,6 +36,11 @@ const BemVindoCli = ({navigation}) => {
                                     <Text onPress={()=>navigation.navigate("CadastroPets")} style={styles.textStyle}>Adicionar seu novo Pets</Text>
                                 </Pressable>
 
+                                <Pressable
+                                    style={[styles.button, styles.buttonOpen]}>
+                                    <Text onPress={()=>navigation.navigate("VisualizarProdCli")} style={styles.textStyle}>Produtos</Text>
+                                </Pressable>
+
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 
             </ScrollView> 

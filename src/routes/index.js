@@ -15,6 +15,7 @@ import VisualizarSeusPet from '../templates/cliente/pets/VisualizarSeusPet'
 import CadastroPets from '../templates/cliente/pets/CadastroPets';
 import VisualizarSeusProd from '../templates/cliente/VisualizarSeusProd'
 import FichaMedica from '../templates/cliente/pets/FichaMedica';
+import VisualizarProdCli from '../templates/cliente/VisualizarProdutosCli';
 
 export default function Routes(){
     const Stack = createNativeStackNavigator();
@@ -28,6 +29,7 @@ export default function Routes(){
                     <Stack.Screen name="BemVindoFunc"component={BemVindoFunc} />
                     <Stack.Screen name="VisualizarFunc"component={VisualizarFunc} />
                     <Stack.Screen name="VisualizarCli"component={VisualizarCli} />
+                    <Stack.Screen name="VisualizarProdCli" component={VisualizarProdCli} />
                     <Stack.Screen name="VeiwCli" component={VeiwCli}/>
                     <Stack.Screen name="BemVindoCli" component={BemVindoCli}/>
                     <Stack.Screen name="CadastroProd" component={CadastroProd}/>
