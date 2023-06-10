@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { View ,Pressable, Modal, Text, StyleSheet, Image, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, KeyboardAwareScrollView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CadastroProd = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +32,12 @@ const CadastroProd = ({navigation}) =>{
 
     return(
         <>
+        <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("BemVindoFunc")}>Voltar 
+        </Icon.Button>
+        </View>
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'position'}>
                                         
@@ -101,8 +108,9 @@ const styles = StyleSheet.create({
     titulo2:{
         textAlign:"center", fontSize: 30, marginTop:30
     },
+  
     barra:{
-        flex:0.15, backgroundColor: "pink", 
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10

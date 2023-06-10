@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CadastroCli= ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -110,6 +110,12 @@ const CadastroCli= ({navigation}) => {
     }
     return(
             <>
+               <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("Login")}>Voltar 
+        </Icon.Button>
+        </View>
              <Modal 
                 animationType="slide" 
                 transparent={true} 
@@ -206,7 +212,7 @@ const styles = StyleSheet.create({
         textAlign:"center", fontSize: 30, marginTop:30
     },
     barra:{
-        flex:0.15, backgroundColor: "pink", 
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Pressable} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const BemVindoCli = ({navigation}) => {
     
     return(
         <>
-            <ScrollView>
-                    <View style = {styles.barra}/>
+        <View style = {styles.barra}>
+            <Icon.Button name="angle-left" 
+                size={20} color="black"
+                backgroundColor = 'pink' onPress={()=>navigation.navigate("Login")}>Voltar 
+            </Icon.Button>
+        </View>
                         <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
                             <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>                
                                 <KeyboardAvoidingView style = {{ paddingTop: 50}}>
@@ -43,7 +48,7 @@ const BemVindoCli = ({navigation}) => {
 
                             </KeyboardAvoidingView>
                     </KeyboardAvoidingView> 
-            </ScrollView> 
+            
         </>
     )
 }
@@ -54,8 +59,9 @@ const styles = StyleSheet.create({
         textAlign:"center", fontSize: 30
     },
     barra:{
-        flex:0.15, backgroundColor: "pink", 
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
     },
+
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
     },

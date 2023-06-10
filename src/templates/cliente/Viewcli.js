@@ -336,6 +336,13 @@ const VeiwCli = ({route, navigation}) => {
 
     return(
         <>
+                <View style = {style.barra}>
+                    <Icon.Button name="angle-left" 
+                        size={20} color="black"
+                        backgroundColor = 'pink' onPress={()=>navigation.navigate("VisualizarCli")}>Voltar 
+                    </Icon.Button>
+                </View>
+        
         <ScrollView ref={scrollViewRef}>
             <KeyboardAvoidingView>
                 <TouchableWithoutFeedback>
@@ -524,6 +531,9 @@ const style = StyleSheet.create ({
     inputWithoutEdit: {
         margin: 5, 
         marginTop: 9
+    },
+    barra:{
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
     }
 })
 

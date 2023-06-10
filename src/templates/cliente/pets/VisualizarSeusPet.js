@@ -57,6 +57,13 @@ const [pets, setPets] = useState([])
 
     return(
         <>
+
+<View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("BemVindoCli")}>Voltar 
+        </Icon.Button>
+        </View>
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
                     <Text style={styles.titulo}>Seus Pets</Text>
@@ -115,6 +122,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginRight: 15,
       },
+      
+  barra:{
+    backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
+  },
+
   
   })
 

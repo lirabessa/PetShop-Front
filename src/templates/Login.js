@@ -39,7 +39,8 @@ const Login = ({navigation}) => {
     }
 
     return(
-        <>           
+        <> 
+            <View style = {styles.barra}/>          
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
             <View style = {{marginTop: 90}}>
                 <Pressable  onLongPress={handleDoubleTap}><Text style= {styles.titulo}>Bem Vindo ao PetShop</Text></Pressable>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         textAlign:"center", fontSize: 30
     },
     barra:{
-        flex:0.15, height:40, backgroundColor: "pink", 
+        flex:0.20, height:40, backgroundColor: "pink", 
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10, marginTop: 20

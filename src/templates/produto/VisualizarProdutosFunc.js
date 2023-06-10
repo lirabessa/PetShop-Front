@@ -43,6 +43,13 @@ const DeletarProd = (id) => {
 
     return(
         <>
+        <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("BemVindoFunc")}>Voltar 
+        </Icon.Button>
+        </View>
+
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
                     <Text style={styles.titulo}>Todos os Produtos</Text>
@@ -90,7 +97,11 @@ const styles = StyleSheet.create({
       marginTop:20,
       marginHorizontal:15
   
-    }
+    },
+    barra:{
+           backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
+       },
+   
   
   })
 

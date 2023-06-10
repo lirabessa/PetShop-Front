@@ -58,6 +58,13 @@ const VisualizarFunc = ({ navigation }) => {
 
   return (
     <>
+     <View style = {styles.barra}>
+                    <Icon.Button name="angle-left" 
+                        size={20} color="black"
+                        backgroundColor = 'pink' onPress={()=>navigation.navigate("BemVindoFunc")}>Voltar 
+                    </Icon.Button>
+                </View>
+    
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} style={{  paddingTop: 30 }}>
         <Text style={styles.titulo}>Bem vindos</Text>
       </KeyboardAvoidingView>
@@ -102,6 +109,9 @@ const VisualizarFunc = ({ navigation }) => {
 const styles = StyleSheet.create({
   titulo: {
     textAlign: "center", fontSize: 30
+  },
+   barra:{
+    backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
   },
   container: {
     flex: 1,

@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store'
 import axios from "axios";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CadastroPets = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -118,6 +119,13 @@ const CadastroPets = ({navigation}) =>{
     //************AXIOS****************** */
     return(
         <>
+        <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("BemVindoCli")}>Voltar 
+        </Icon.Button>
+        </View>
+
             <ScrollView>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios'? 'padding' : 'padding'}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
@@ -216,7 +224,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
         
-        },
+    },
+    
+    barra:{
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
+    },
+
 })
 
 export default CadastroPets;

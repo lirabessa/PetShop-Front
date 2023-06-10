@@ -7,6 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CadastroFunc = ({route, navigation}) => {
     const {id} = route.params || {id: null};
@@ -160,9 +161,14 @@ const getFunc = (id) => {
     }, [navigation]);
 
     return(
-        <>
+        <>   
+        <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("VisualizarFunc")}>Voltar 
+        </Icon.Button>
+        </View>
         <ScrollView>
-            <View style = {styles.barra}/>
                 <KeyboardAvoidingView >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>                
                         <KeyboardAvoidingView style = {{ paddingTop: 50}}>
@@ -229,7 +235,7 @@ const styles = StyleSheet.create({
         textAlign:"center", fontSize: 30
     },
     barra:{
-        flex:0.15, backgroundColor: "pink", 
+        backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
     },
     input:{
         height: 40, margin: 12, borderWidth: 1, borderRadius: 10, padding: 10
