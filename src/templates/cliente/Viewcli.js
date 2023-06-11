@@ -185,7 +185,7 @@ const VeiwCli = ({route, navigation}) => {
             }, 
             headers: { authorization: token }
          }).then(res=>{
-            petSalvo = res.data.cliente.dependentes.find(p => p.nomeDep == pets[index].nomeDep)
+            petSalvo = res.data.dependentes.find(p => p.nomeDep == pets[index].nomeDep)
              setPetNome('')
              setPetRaca('')
              pets[index].editar = false
