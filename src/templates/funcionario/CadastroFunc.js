@@ -8,6 +8,7 @@ import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
 
 const CadastroFunc = ({route, navigation}) => {
     const {id} = route.params || {id: null};
@@ -113,16 +114,19 @@ const CadastroFunc = ({route, navigation}) => {
         }
         axiosFunc(url, varJson).then(async response => {
             const id = response.data.criarFuncionario?._id || response.data.updateFuncionario?._id
+            setModalVisible(true)
             console.log('Then cadastro func cadastrar funcionario', response.data);
             await cadastrarFoto(id)
         })
         .catch( error => {
-            
+            Toast.show({
+                type: 'error',
+                text1: 'Preencha todos os campos',
+            });
             console.log('catch', error.response);
             
         });
 
-    setModalVisible(true)
 }
 
 const getFunc = (id) => {

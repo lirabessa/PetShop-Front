@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View , Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, Pressable} from 'react-native'
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store'
+import Toast from 'react-native-toast-message';
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -34,14 +35,18 @@ const Login = ({navigation}) => {
             }
         })
         .catch(error => {
+            Toast.show({
+                type: 'error',
+                text1: 'Email ou Senha incorretos',
+            });
             console.log('catch',error.response.data);
-        });
+        })
     }
 
     return(
         <> 
             <View style = {styles.barra}/>          
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>    
+           
             <View style = {{marginTop: 90}}>
                 <Pressable  onLongPress={handleDoubleTap}><Text style= {styles.titulo}>Bem Vindo ao PetShop</Text></Pressable>
                 <Pressable  onLongPress={handleDoubleEmail}><Text style={styles.inputLabel}>Email/CPF:</Text></Pressable>
@@ -57,7 +62,7 @@ const Login = ({navigation}) => {
             </View>   
 
             
-            </KeyboardAvoidingView>     
+           
         </>
     )
 }

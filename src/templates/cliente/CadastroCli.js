@@ -9,6 +9,7 @@ import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
 
 const CadastroCli= ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -103,6 +104,10 @@ const CadastroCli= ({navigation}) => {
             setModalVisible(true)
         })
         .catch(error => {
+            Toast.show({
+                type: 'error',
+                text1: 'Preencha todos os campos',
+            });
             console.log('catch 2222', {error});
             setEnviandoDados(false);
         });
