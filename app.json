@@ -30,10 +30,16 @@
           "READ_EXTERNAL_STORAGE",
           "WRITE_EXTERNAL_STORAGE"
         ]
-      }
+      },
+      "package": "com.lirabessa11.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "717e951f-b982-45d5-9b40-3f9f2302d307"
+      }
     }
   }
 }

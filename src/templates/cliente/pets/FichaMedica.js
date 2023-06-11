@@ -94,6 +94,12 @@ const FichaMedica = ({route, navigation})=> {
 
     return(
         <>
+        <View style = {styles.barra}>
+        <Icon.Button name="angle-left" 
+            size={20} color="black"
+            backgroundColor = 'pink' onPress={()=>navigation.navigate("VisualizarFunc")}>Voltar 
+        </Icon.Button>
+        </View>
             <ScrollView>
                 <View style={{flexDirection:"row",justifyContent:"space-around", paddingBottom:20, borderBottomWidth: 1, marginVertical: 15}}>
                   <TouchableOpacity style={[styles.button, styles.buttonOpen, {flex: .85}]} onPress={adicionaFicha}>
@@ -223,7 +229,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flex:1
     },
-  
+    barra:{
+      backgroundColor: "pink", alignItems:'flex-start', paddingTop:40
+    },
     square: {
       width: 50,
       height: 50,
